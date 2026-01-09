@@ -55,7 +55,8 @@ const scrum: ScrumDashboard = {
     { sprint: 2, improvements: [{ action: "サブタスク小分割", timing: "sprint", status: "completed", outcome: "Sprint3適用" }, { action: "AC振る舞い視点記述", timing: "sprint", status: "completed", outcome: "Sprint3適用" }] },
     { sprint: 3, improvements: [{ action: "サブタスク=コミット単位", timing: "sprint", status: "completed", outcome: "Sprint4で有効確認" }, { action: "複数ファイル=1サブタスク", timing: "sprint", status: "completed", outcome: "Sprint4で有効確認" }] },
     { sprint: 4, improvements: [{ action: "ACファイル名と実装整合性確認", timing: "sprint", status: "completed", outcome: "Sprint5で整合性維持確認" }, { action: "サブタスクnotesを事前計画に活用", timing: "sprint", status: "abandoned", outcome: "AC詳細化の方が効果的と判明" }] },
-    { sprint: 5, improvements: [{ action: "AC粒度標準化（1AC=1論理グループ）", timing: "sprint", status: "active", outcome: null }, { action: "notes=実装時記録専用、計画はAC内記述", timing: "immediate", status: "completed", outcome: "Sprint5 Retro適用" }] },
+    { sprint: 5, improvements: [{ action: "AC粒度標準化（1AC=1論理グループ）", timing: "sprint", status: "completed", outcome: "Sprint6で3AC=3サブタスク=3コミット達成" }, { action: "notes=実装時記録専用、計画はAC内記述", timing: "immediate", status: "completed", outcome: "Sprint5 Retro適用" }] },
+    { sprint: 6, improvements: [{ action: "AC順序=実装依存関係順に統一（1st AC先頭に依存関係明記）", timing: "sprint", status: "active", outcome: null }, { action: "AC詳細度基準：criterion=外部仕様(What)、verification=検証方法、notes=内部実装判断", timing: "sprint", status: "active", outcome: null }] },
   ],
 };
 
