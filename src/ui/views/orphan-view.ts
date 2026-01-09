@@ -3,6 +3,7 @@ import { OrphanDetectorService } from "../../services/orphan-detector-service";
 import { StructureSuggestModal } from "../modals/structure-suggest-modal";
 import { ConnectionManager } from "../../core/connection-manager";
 import type { DailyZettelSettings } from "../../types/settings";
+import type { OrphanStats } from "../../types";
 
 export const VIEW_TYPE_ORPHAN = "orphan-permanent-view";
 
@@ -10,6 +11,7 @@ export class OrphanView extends ItemView {
 	private orphanDetectorService: OrphanDetectorService;
 	private connectionManager: ConnectionManager;
 	private orphanNotes: TFile[] = [];
+	private orphanStats: OrphanStats | null = null;
 	private settings: DailyZettelSettings;
 
 	constructor(leaf: WorkspaceLeaf, settings: DailyZettelSettings) {
@@ -40,10 +42,11 @@ export class OrphanView extends ItemView {
 	}
 
 	/**
-	 * ビューをリフレッシュして孤立ノートを再取得
+	 * ビューをリフレッシュして孤立ノートと統計情報を再取得
 	 */
 	async refresh(): Promise<void> {
 		this.orphanNotes = await this.orphanDetectorService.getOrphanPermanentNotes();
+		this.orphanStats = await this.orphanDetectorService.getStats();
 		this.renderView();
 	}
 
@@ -84,6 +87,15 @@ export class OrphanView extends ItemView {
 		// ヘッダーとリフレッシュボタン
 		const header = container.createDiv({ cls: "orphan-view-header" });
 		header.createEl("h4", { text: "Orphan permanent notes" });
+
+		// 統計情報を表示
+		if (this.orphanStats) {
+			const statsText = `📊 接続率: ${this.orphanStats.connectionRate.toFixed(1)}% (${this.orphanStats.orphans} / ${this.orphanStats.total} 件が未接続)`;
+			header.createDiv({
+				text: statsText,
+				cls: "orphan-view-stats",
+			});
+		}
 
 		const refreshButton = header.createEl("button", {
 			text: "更新",
