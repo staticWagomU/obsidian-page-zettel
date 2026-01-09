@@ -57,11 +57,13 @@ const scrum: ScrumDashboard = {
         benefit: "デイリーノートから素早くアイデアを切り出せる",
       },
       acceptance_criteria: [
-        { criterion: "選択範囲から新規ノート作成", verification: "コマンド実行でノート生成" },
-        { criterion: "NoteTypeModalでタイプ選択", verification: "3タイプから選択可能" },
-        { criterion: "元ノートにリンク挿入", verification: "設定ONで[[リンク]]置換" },
+        { criterion: "テキスト選択なしでコマンド実行時、警告通知が表示される", verification: "Notice「テキストを選択してください」表示を確認" },
+        { criterion: "テキスト選択後コマンド実行時、NoteTypeModalが開きFleeting/Literature/Permanentの3タイプが選択可能", verification: "モーダルで各タイプのアイコン・ラベル・説明が表示されることを確認" },
+        { criterion: "タイプ選択後、選択テキストを本文とする新規ノートが対応フォルダに作成され、フロントマター(type/created/tags/source_notes)が付与される", verification: "作成されたノートのフロントマターとファイルパスを確認" },
+        { criterion: "insertLinkAfterExtract設定がONの場合、元ノートの選択範囲が[[新規ノート名]]リンクに置換される", verification: "元ノートのエディタで選択範囲がリンクになっていることを確認" },
+        { criterion: "Permanentタイプ選択かつsuggestStructureOnPermanent設定がONの場合、ノート作成後にStructureSuggestModalが開く", verification: "Structure提案モーダルが表示され、スキップまたは選択が可能なことを確認" },
       ],
-      status: "draft",
+      status: "ready",
     },
     {
       id: "PBI-004",
