@@ -20,9 +20,11 @@ export default class DailyZettelPlugin extends Plugin {
 		// Register commands
 		this.addCommand({
 			id: "extract-selection",
-			name: this.settings.ui.showEmojiInCommands ? "📝 選択範囲から新規ノート" : "選択範囲から新規ノート",
+			name: this.settings.ui.showEmojiInCommands
+				? "📝 選択範囲から新規ノート"
+				: "選択範囲から新規ノート",
 			editorCallback: (editor: Editor, view: MarkdownView) => {
-				extractSelection(this, editor, view);
+				void extractSelection(this, editor, view);
 			},
 		});
 

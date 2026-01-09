@@ -1,4 +1,4 @@
-import { App, PluginSettingTab, Setting } from "obsidian";
+import { App, PluginSettingTab } from "obsidian";
 import DailyZettelPlugin from "./main";
 import type { DailyZettelSettings } from "./types/settings";
 import { NOTE_TYPE_CONFIG } from "./types/note-types";
@@ -40,9 +40,7 @@ export class DailyZettelSettingTab extends PluginSettingTab {
 
 		containerEl.empty();
 
-		containerEl.createEl("h2", { text: "Daily Zettel 設定" });
-
 		// Placeholder for settings UI
-		containerEl.createEl("p", { text: "設定項目は今後追加されます" });
+		containerEl.createEl("p", { text: "Settings will be added in future versions" });
 	}
 }

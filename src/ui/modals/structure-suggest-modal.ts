@@ -25,20 +25,21 @@ export class StructureSuggestModal extends FuzzySuggestModal<StructureOption> {
 		this.onSelect = onSelect;
 		this.suggestionService = new SuggestionService(app, settings);
 
-		this.setPlaceholder("Structure Note を選択（またはスキップ）...");
+		this.setPlaceholder("Select structure note (or skip)...");
 		this.modalEl.addClass("daily-zettel-modal");
 
 		// 提案を非同期で読み込み
 		this.loadSuggestions();
 	}
 
-	private async loadSuggestions(): Promise<void> {
-		this.suggestions = await this.suggestionService.suggestStructureNotes(
-			this.permanentNote,
-			10,
-		);
-		// 再描画をトリガー
-		this.inputEl.dispatchEvent(new Event("input"));
+	private loadSuggestions(): void {
+		void this.suggestionService
+			.suggestStructureNotes(this.permanentNote, 10)
+			.then((suggestions) => {
+				this.suggestions = suggestions;
+				// 再描画をトリガー
+				this.inputEl.dispatchEvent(new Event("input"));
+			});
 	}
 
 	getItems(): StructureOption[] {
@@ -47,7 +48,7 @@ export class StructureSuggestModal extends FuzzySuggestModal<StructureOption> {
 		// スキップオプションを最初に
 		options.push({
 			file: null,
-			label: "⏭️ スキップ（後で接続）",
+			label: "⏭️ Skip (link later)",
 			isSkip: true,
 		});
 
@@ -83,7 +84,7 @@ export class StructureSuggestModal extends FuzzySuggestModal<StructureOption> {
 
 	onChooseItem(item: StructureOption): void {
 		if (item.isSkip) {
-			new Notice("📝 後で Structure Note に接続できます");
+			new Notice("You can link to a structure note later");
 			this.onSelect(null);
 		} else {
 			this.onSelect(item.file);

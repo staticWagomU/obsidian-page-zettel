@@ -113,11 +113,9 @@ export class SuggestionService {
 	private extractTags(meta: CachedMetadata | null): string[] {
 		if (!meta) return [];
 
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-		const frontmatterTags = meta.frontmatter?.tags || [];
+		const frontmatterTags = (meta.frontmatter?.tags as string[] | undefined) || [];
 		const inlineTags = meta.tags?.map((t) => t.tag.replace("#", "")) || [];
 
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		return [...new Set([...frontmatterTags, ...inlineTags])];
 	}
 }

@@ -1,5 +1,5 @@
-import { App, TFile } from "obsidian";
-import { NoteType, NOTE_TYPE_CONFIG } from "../types/note-types";
+import { App } from "obsidian";
+import { NoteType } from "../types/note-types";
 import type { DailyZettelSettings } from "../types/settings";
 
 export interface TemplateVariables {

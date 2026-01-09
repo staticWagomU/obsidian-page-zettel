@@ -20,8 +20,8 @@ export async function extractSelection(
 	// 2. ノートタイプを選択
 	const modal = new NoteTypeModal(
 		plugin.app,
-		async (type: NoteType) => {
-			await createNoteFromSelection(plugin, editor, view, selection, type);
+		(type: NoteType) => {
+			void createNoteFromSelection(plugin, editor, view, selection, type);
 		},
 		["fleeting", "literature", "permanent"], // 切り出し時の選択肢
 	);
@@ -62,9 +62,9 @@ async function createNoteFromSelection(
 			plugin.app,
 			plugin.settings,
 			newFile,
-			async (structureFile) => {
+			(structureFile) => {
 				if (structureFile) {
-					await plugin.connectionManager.linkPermanentToStructure(newFile, structureFile);
+					void plugin.connectionManager.linkPermanentToStructure(newFile, structureFile);
 				}
 			},
 		);
