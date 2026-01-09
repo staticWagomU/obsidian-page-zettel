@@ -31,7 +31,7 @@ const scrum: ScrumDashboard = {
         { criterion: "NOTE_TYPE_CONFIGが各タイプの設定を持つ", verification: "型チェック通過" },
         { criterion: "PROMOTION_PATHSで昇格パスが定義", verification: "fleeting→permanent→structure→indexの流れ" },
       ],
-      status: "draft",
+      status: "ready",
     },
     {
       id: "PBI-002",
