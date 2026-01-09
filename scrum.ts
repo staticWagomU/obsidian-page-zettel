@@ -41,7 +41,7 @@ const scrum: ScrumDashboard = {
         test: "OrphanDetectorService.getOrphanPermanentNotes()（type=permanent && structure_notes空/未定義のTFile配列取得、FrontmatterService統合）",
         implementation: "src/services/orphan-detector-service.ts",
         type: "behavioral",
-        status: "pending",
+        status: "completed",
         commits: [],
         notes: [],
       },
