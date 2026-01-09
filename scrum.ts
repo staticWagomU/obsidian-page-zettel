@@ -41,11 +41,13 @@ const scrum: ScrumDashboard = {
         benefit: "ノート間の関係性を自動追跡できる",
       },
       acceptance_criteria: [
-        { criterion: "FrontmatterServiceでYAML読み書き", verification: "フロントマター追加・更新が動作" },
-        { criterion: "getNoteTypeでタイプ取得", verification: "既存ノートからタイプ判定可能" },
-        { criterion: "structure_notesリンク管理", verification: "接続追加が反映される" },
+        { criterion: "addFrontmatter()がYAML文字列を生成", verification: "---で囲まれたフロントマターが先頭に追加される" },
+        { criterion: "updateMetadata()で部分更新", verification: "app.fileManager.processFrontMatter経由で既存キー保持" },
+        { criterion: "getNoteType()がキャッシュから取得", verification: "metadataCache.getFileCache().frontmatter.type返却" },
+        { criterion: "addStructureLink()が重複排除", verification: "structure_notes配列に未追加のリンクのみ追加" },
+        { criterion: "updateTags()で追加・削除両対応", verification: "tagsToRemove削除後にtagsToAdd追加し重複排除" },
       ],
-      status: "draft",
+      status: "ready",
     },
     {
       id: "PBI-003",
