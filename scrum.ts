@@ -49,8 +49,8 @@ const scrum: ScrumDashboard = {
         test: "LinkPermanentCommand（現在ノートがpermanent type確認→StructureSuggestModal表示→ConnectionManager呼び出し）",
         implementation: "src/commands/link-permanent-command.ts",
         type: "behavioral",
-        status: "green",
-        commits: [],
+        status: "completed",
+        commits: [{ hash: "fb76382", message: "feat(PBI-007): implement LinkPermanentCommand", phase: "green" }],
         notes: [],
       },
       {

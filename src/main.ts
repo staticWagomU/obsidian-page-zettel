@@ -6,6 +6,7 @@ import { ConnectionManager } from "./core/connection-manager";
 import { PromotionService } from "./services/promotion-service";
 import { extractSelection } from "./commands/extract-selection-command";
 import { promoteNote } from "./commands/promote-note-command";
+import { linkPermanent } from "./commands/link-permanent-command";
 
 export default class DailyZettelPlugin extends Plugin {
 	settings: DailyZettelSettings;
@@ -37,6 +38,16 @@ export default class DailyZettelPlugin extends Plugin {
 			name: this.settings.ui.showEmojiInCommands ? "⬆️ ノートを昇格" : "ノートを昇格",
 			callback: () => {
 				void promoteNote(this);
+			},
+		});
+
+		this.addCommand({
+			id: "link-permanent",
+			name: this.settings.ui.showEmojiInCommands
+				? "🔗 Structure Note に接続"
+				: "Structure Note に接続",
+			callback: () => {
+				void linkPermanent(this);
 			},
 		});
 
