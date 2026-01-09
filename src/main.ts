@@ -3,12 +3,14 @@ import { DEFAULT_SETTINGS, DailyZettelSettingTab } from "./settings";
 import type { DailyZettelSettings } from "./types/settings";
 import { NoteManager } from "./core/note-manager";
 import { ConnectionManager } from "./core/connection-manager";
+import { PromotionService } from "./services/promotion-service";
 import { extractSelection } from "./commands/extract-selection-command";
 
 export default class DailyZettelPlugin extends Plugin {
 	settings: DailyZettelSettings;
 	noteManager: NoteManager;
 	connectionManager: ConnectionManager;
+	promotionService: PromotionService;
 
 	async onload() {
 		await this.loadSettings();
@@ -16,6 +18,7 @@ export default class DailyZettelPlugin extends Plugin {
 		// Initialize services
 		this.noteManager = new NoteManager(this.app, this.settings);
 		this.connectionManager = new ConnectionManager(this.app);
+		this.promotionService = new PromotionService(this.app, this.settings);
 
 		// Register commands
 		this.addCommand({

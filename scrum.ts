@@ -42,15 +42,15 @@ const scrum: ScrumDashboard = {
         implementation: "src/services/promotion-service.ts",
         type: "behavioral",
         status: "completed",
-        commits: [{ hash: "TBD", message: "feat(PBI-006): implement PromotionService with frontmatter update and folder move", phase: "green" }],
+        commits: [{ hash: "ca4d202", message: "feat(PBI-006): implement PromotionService with frontmatter update and folder move", phase: "green" }],
         notes: [],
       },
       {
         test: "PromoteNoteCommand（現在のノートtypeから昇格可能タイプ取得→NoteTypeModal表示→PromotionService呼び出し、空PROMOTION_PATHSはNotice警告）",
         implementation: "src/commands/promote-note-command.ts",
         type: "behavioral",
-        status: "pending",
-        commits: [],
+        status: "completed",
+        commits: [{ hash: "TBD", message: "feat(PBI-006): implement PromoteNoteCommand with validation and modal", phase: "green" }],
         notes: [],
       },
       {
