@@ -88,11 +88,15 @@ const scrum: ScrumDashboard = {
         benefit: "自分のワークフローに合わせて調整できる",
       },
       acceptance_criteria: [
-        { criterion: "SettingsTabでUI表示", verification: "設定タブが開ける" },
-        { criterion: "フォルダパス変更可能", verification: "5タイプのフォルダ設定" },
-        { criterion: "動作設定トグル", verification: "insertLinkAfterExtract等が切替可能" },
+        { criterion: "DailyZettelSettingTab.display()が設定画面をレンダリングし、3つのセクション(フォルダ設定/動作設定/UI設定)見出しが表示される", verification: "containerEl.createEl('h2', {text: 'フォルダ設定'})等で各セクション見出しが作成されることを確認" },
+        { criterion: "フォルダ設定セクションに7つのテキスト入力フィールドが表示される: Fleeting/Literature/Permanent/Structure/Indexノートフォルダ、テンプレートフォルダ、デイリーノートフォルダ", verification: "new Setting(containerEl).setName('Fleeting Notes').addText()で各フォルダパス入力欄が作成され、DEFAULT_SETTINGSの値がプレースホルダーまたは初期値として表示される" },
+        { criterion: "各フォルダパステキストフィールドで値を変更しフォーカスアウト時、plugin.saveSettings()が呼ばれsettings.folders.typeFolders[type]またはsettings.folders.templateFolderに反映される", verification: "onChange((value) => { this.plugin.settings.folders.typeFolders.fleeting = value; await this.plugin.saveSettings(); })が実行され、プラグイン再読み込み後も変更が永続化される" },
+        { criterion: "動作設定セクションに4つのトグルスイッチが表示される: insertLinkAfterExtract(切り出し後にリンク挿入)/suggestStructureOnPermanent(Permanent作成時にStructure提案)/moveOnPromotion(昇格時にフォルダ移動)/showEmojiInCommands(コマンドに絵文字表示)", verification: "new Setting(containerEl).setName('切り出し後にリンク挿入').addToggle()で各トグルが作成され、現在の設定値がON/OFF状態として表示される" },
+        { criterion: "各トグルスイッチをタップ時、plugin.saveSettings()が呼ばれsettings.behavior[key]またはsettings.ui[key]のboolean値が反転する", verification: "onChange((value) => { this.plugin.settings.behavior.insertLinkAfterExtract = value; await this.plugin.saveSettings(); })が実行され、プラグイン再読み込み後もトグル状態が永続化される" },
+        { criterion: "動作設定セクションにファイル名プレフィックス形式のドロップダウンが表示され、date(日付形式)/zettel-id(Zettelkasten ID)/none(プレフィックスなし)の3オプションが選択可能", verification: "new Setting(containerEl).setName('ファイル名プレフィックス').addDropdown((dropdown) => dropdown.addOption('date', '日付形式').addOption('zettel-id', 'Zettelkasten ID').addOption('none', 'なし'))が作成され、settings.behavior.fileNamePrefixの現在値が選択状態として表示される" },
+        { criterion: "ドロップダウンで選択肢変更時、plugin.saveSettings()が呼ばれsettings.behavior.fileNamePrefixに'date'/'zettel-id'/'none'のいずれかが設定される", verification: "onChange((value) => { this.plugin.settings.behavior.fileNamePrefix = value as 'date' | 'zettel-id' | 'none'; await this.plugin.saveSettings(); })が実行され、プラグイン再読み込み後も選択が永続化される" },
       ],
-      status: "draft",
+      status: "ready",
     },
 
     // Phase 2: 接続管理
