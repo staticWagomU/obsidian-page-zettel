@@ -1,4 +1,4 @@
-import { Editor, MarkdownView, Plugin } from "obsidian";
+import { Editor, MarkdownView, Plugin, WorkspaceLeaf } from "obsidian";
 import { DEFAULT_SETTINGS, DailyZettelSettingTab } from "./settings";
 import type { DailyZettelSettings } from "./types/settings";
 import { NoteManager } from "./core/note-manager";
@@ -7,6 +7,7 @@ import { PromotionService } from "./services/promotion-service";
 import { extractSelection } from "./commands/extract-selection-command";
 import { promoteNote } from "./commands/promote-note-command";
 import { linkPermanent } from "./commands/link-permanent-command";
+import { OrphanView, VIEW_TYPE_ORPHAN } from "./ui/views/orphan-view";
 
 export default class DailyZettelPlugin extends Plugin {
 	settings: DailyZettelSettings;
@@ -21,6 +22,14 @@ export default class DailyZettelPlugin extends Plugin {
 		this.noteManager = new NoteManager(this.app, this.settings);
 		this.connectionManager = new ConnectionManager(this.app);
 		this.promotionService = new PromotionService(this.app, this.settings);
+
+		// Register views
+		this.registerView(VIEW_TYPE_ORPHAN, (leaf) => new OrphanView(leaf, this.settings));
+
+		// Add ribbon icon to open orphan view
+		this.addRibbonIcon("unlink", "孤立 Permanent Notes", () => {
+			void this.activateOrphanView();
+		});
 
 		// Register commands
 		this.addCommand({
@@ -55,7 +64,37 @@ export default class DailyZettelPlugin extends Plugin {
 		this.addSettingTab(new DailyZettelSettingTab(this.app, this));
 	}
 
-	onunload() {}
+	onunload() {
+		// Detach orphan view leaves
+		this.app.workspace.detachLeavesOfType(VIEW_TYPE_ORPHAN);
+	}
+
+	/**
+	 * OrphanViewをアクティブにする
+	 */
+	async activateOrphanView(): Promise<void> {
+		const { workspace } = this.app;
+
+		let leaf: WorkspaceLeaf | null = null;
+		const leaves = workspace.getLeavesOfType(VIEW_TYPE_ORPHAN);
+
+		if (leaves.length > 0) {
+			// すでに開いている場合は、そのリーフを使用
+			leaf = leaves[0] ?? null;
+		} else {
+			// 新しいリーフを右サイドバーに作成
+			const rightLeaf = workspace.getRightLeaf(false);
+			if (rightLeaf) {
+				await rightLeaf.setViewState({ type: VIEW_TYPE_ORPHAN, active: true });
+				leaf = rightLeaf;
+			}
+		}
+
+		// リーフをアクティブにして表示
+		if (leaf) {
+			workspace.revealLeaf(leaf);
+		}
+	}
 
 	async loadSettings() {
 		this.settings = Object.assign(
