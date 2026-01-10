@@ -30,43 +30,12 @@ const scrum: ScrumDashboard = {
     // Phase 3: 可視化
     { id: "PBI-008", story: { role: "Zettelkasten実践者", capability: "孤立Permanent Note発見", benefit: "Structure接続漏れ防止" }, acceptance_criteria: [{ criterion: "OrphanDetectorService.getOrphanPermanentNotes()（type=permanent && structure_notes空/未定義のTFile配列を返す）", verification: "FrontmatterService統合、孤立ノート取得確認" }, { criterion: "OrphanView extends ItemView（サイドバー登録、リスト表示、リフレッシュボタン、OrphanDetectorService呼び出し）", verification: "サイドバーアイコンクリック→孤立ノートリスト表示" }, { criterion: "各リストアイテムに接続ボタン（クリックでStructureSuggestModal起動、接続後ビュー自動更新）", verification: "ボタンクリック→Modal表示→接続完了後リストから削除" }], status: "done" },
     // Phase 4: UX強化
-    { id: "PBI-009", story: { role: "Obsidianモバイルユーザー", capability: "ワンタップでFleeting Note作成", benefit: "デイリーノートを開かずに素早くアイデアキャプチャ" }, acceptance_criteria: [{ criterion: "QuickCaptureModal extends Modal（src/ui/modals/quick-capture-modal.ts新規作成、Modalコンストラクタでplugin/onSubmit受け取り、onOpen()でテキストエリア+作成/キャンセルボタンレンダリング、Enterキー=作成・Escapeキー=閉じる）", verification: "import { Modal, Setting }からModal継承、onOpen()内でthis.contentEl.createEl()でUI構築、titleEl.addEventListener('keydown')でEnter/Escapeハンドリング確認" }, { criterion: "main.tsにaddCommand(id: \"quick-fleeting\", name: \"⚡ Quick Fleeting Note\", callback: QuickCaptureModal初期化→open())、settings.ui.showEmojiInCommandsで絵文字切り替え", verification: "コマンドパレット「quick-fleeting」検索→Modal起動、設定タブで絵文字トグル→コマンド名変更確認、ホットキー設定可能確認" }, { criterion: "Modal作成ボタンクリック→onSubmit(title)コールバック→NoteManager.createNote({ title, type: \"fleeting\", content: \"\" })呼び出し→10-Fleetingフォルダにノート生成→新規ノート自動オープン→Modal閉じる", verification: "E2E: Modal入力「テストアイデア」→作成→10-Fleeting/[prefix]-テストアイデア.md存在確認、frontmatter.type=\"fleeting\"確認、エディタで新規ノート表示確認" }], status: "ready" },
+    { id: "PBI-009", story: { role: "Obsidianモバイルユーザー", capability: "ワンタップでFleeting Note作成", benefit: "デイリーノートを開かずに素早くアイデアキャプチャ" }, acceptance_criteria: [{ criterion: "QuickCaptureModal extends Modal（src/ui/modals/quick-capture-modal.ts新規作成、Modalコンストラクタでplugin/onSubmit受け取り、onOpen()でテキストエリア+作成/キャンセルボタンレンダリング、Enterキー=作成・Escapeキー=閉じる）", verification: "import { Modal, Setting }からModal継承、onOpen()内でthis.contentEl.createEl()でUI構築、titleEl.addEventListener('keydown')でEnter/Escapeハンドリング確認" }, { criterion: "main.tsにaddCommand(id: \"quick-fleeting\", name: \"⚡ Quick Fleeting Note\", callback: QuickCaptureModal初期化→open())、settings.ui.showEmojiInCommandsで絵文字切り替え", verification: "コマンドパレット「quick-fleeting」検索→Modal起動、設定タブで絵文字トグル→コマンド名変更確認、ホットキー設定可能確認" }, { criterion: "Modal作成ボタンクリック→onSubmit(title)コールバック→NoteManager.createNote({ title, type: \"fleeting\", content: \"\" })呼び出し→10-Fleetingフォルダにノート生成→新規ノート自動オープン→Modal閉じる", verification: "E2E: Modal入力「テストアイデア」→作成→10-Fleeting/[prefix]-テストアイデア.md存在確認、frontmatter.type=\"fleeting\"確認、エディタで新規ノート表示確認" }], status: "done" },
     { id: "PBI-010", story: { role: "Zettelkasten実践者", capability: "プラグイン初回起動時にフォルダ構造自動生成", benefit: "手動フォルダ作成不要でZettelkasten開始" }, acceptance_criteria: [{ criterion: "FolderService.initializeAllFolders()（全NoteType[\"fleeting\", \"literature\", \"permanent\", \"structure\", \"index\"]に対しensureFolderExists()呼び出し、Templatesフォルダも作成、既存フォルダはスキップ）", verification: "メソッド呼び出し後、vault.getAbstractFileByPath()で6フォルダ存在確認" }, { criterion: "main.ts onload()内で、settings読込後・services初期化前にFolderService.initializeAllFolders()呼び出し", verification: "プラグイン有効化（初回起動）→vault確認で自動フォルダ作成、2回目起動でNotice出力なし" }], status: "draft" },
     { id: "PBI-011", story: { role: "Zettelkasten実践者", capability: "Permanent Note接続率を数値で確認", benefit: "知識ネットワーク健全性の定量把握" }, acceptance_criteria: [{ criterion: "OrphanDetectorService.getStats()（型定義: interface OrphanStats { total: number; orphans: number; connected: number; connectionRate: number; }、全permanentノート数取得→getOrphanPermanentNotes()で孤立数→connected = total - orphans→connectionRate計算）", verification: "メソッド呼び出しでOrphanStatsオブジェクト取得、total/orphans/connected/connectionRate値の整合性確認" }, { criterion: "OrphanView.onOpen()でOrphanDetectorService.getStats()呼び出し、ヘッダーに統計情報表示（\"📊 接続率: X% (Y / Z 件が未接続)\"形式、リフレッシュ時に統計更新）", verification: "サイドバービュー開く→ヘッダー統計表示確認、リフレッシュボタン→統計更新確認" }], status: "done" },
   ],
 
-  sprint: {
-    number: 10,
-    pbi_id: "PBI-009",
-    goal: "ワンタップFleeting Note作成",
-    status: "planning",
-    subtasks: [
-      {
-        test: "QuickCaptureModal (Modal継承、テキストエリア+ボタンUI、Enter/Escapeキーハンドリング)",
-        implementation: "src/ui/modals/quick-capture-modal.ts",
-        type: "behavioral",
-        status: "pending",
-        commits: [],
-        notes: [],
-      },
-      {
-        test: "コマンド登録 (id: quick-fleeting、name絵文字切り替え、QuickCaptureModal起動)",
-        implementation: "src/main.ts",
-        type: "behavioral",
-        status: "pending",
-        commits: [],
-        notes: [],
-      },
-      {
-        test: "E2Eフロー統合 (Modal入力→NoteManager.createNote呼び出し→10-Fleetingフォルダ生成→新規ノートオープン→Modal閉じる)",
-        implementation: "src/ui/modals/quick-capture-modal.ts,src/main.ts",
-        type: "behavioral",
-        status: "pending",
-        commits: [],
-        notes: [],
-      },
-    ],
-  },
+  sprint: null,
 
   definition_of_done: {
     checks: [
@@ -86,6 +55,7 @@ const scrum: ScrumDashboard = {
     { number: 7, pbi_id: "PBI-007", goal: "Permanent-Structure接続", status: "done", subtasks: [{ test: "ConnectionManager+LinkCommand", implementation: "src/core/connection-manager.ts,src/commands/link-permanent-command.ts", type: "behavioral", status: "completed", commits: [{ hash: "67af70b", message: "feat: ConnectionManager", phase: "green" }, { hash: "fb76382", message: "feat: LinkPermanentCommand", phase: "green" }], notes: [] }] },
     { number: 8, pbi_id: "PBI-008", goal: "孤立Permanent Note発見", status: "done", subtasks: [{ test: "OrphanDetector+View+接続ボタン", implementation: "src/services/orphan-detector-service.ts,src/ui/views/orphan-view.ts", type: "behavioral", status: "completed", commits: [{ hash: "af1660f", message: "feat: OrphanDetectorService", phase: "green" }, { hash: "b775960", message: "feat: OrphanView", phase: "green" }, { hash: "89e632f", message: "feat: 接続ボタン統合", phase: "green" }], notes: [] }] },
     { number: 9, pbi_id: "PBI-011", goal: "接続率統計表示", status: "done", subtasks: [{ test: "getStats()+UI統合", implementation: "src/services/orphan-detector-service.ts,src/ui/views/orphan-view.ts", type: "behavioral", status: "completed", commits: [{ hash: "151f9ac", message: "feat: getStats()", phase: "green" }, { hash: "374cc68", message: "feat: 統計表示UI", phase: "green" }], notes: [] }] },
+    { number: 10, pbi_id: "PBI-009", goal: "ワンタップFleeting Note作成", status: "done", subtasks: [{ test: "QuickCaptureModal+コマンド登録+E2E統合", implementation: "src/ui/modals/quick-capture-modal.ts,src/main.ts", type: "behavioral", status: "completed", commits: [{ hash: "3df2861", message: "feat(PBI-009): implement QuickCaptureModal", phase: "green" }, { hash: "00a260e", message: "feat(PBI-009): register quick-fleeting command", phase: "green" }], notes: [] }] },
   ],
 
   retrospectives: [
