@@ -3,6 +3,7 @@ import { NoteType } from "../types/note-types";
 import { NoteTypeModal } from "../ui/modals/note-type-modal";
 import { StructureSuggestModal } from "../ui/modals/structure-suggest-modal";
 import type DailyZettelPlugin from "../main";
+import { t } from "../i18n";
 
 export async function extractSelection(
 	plugin: DailyZettelPlugin,
@@ -13,7 +14,7 @@ export async function extractSelection(
 	const selection = editor.getSelection();
 
 	if (!selection || selection.trim() === "") {
-		new Notice("⚠️ テキストを選択してください");
+		new Notice(t("notices.selectText"));
 		return;
 	}
 

@@ -1,5 +1,6 @@
 import { App, FuzzySuggestModal } from "obsidian";
 import { NoteType, NOTE_TYPE_CONFIG, NoteTypeConfig } from "../../types/note-types";
+import { t } from "../../i18n";
 
 interface NoteTypeOption {
 	type: NoteType;
@@ -15,7 +16,7 @@ export class NoteTypeModal extends FuzzySuggestModal<NoteTypeOption> {
 		this.onSelect = onSelect;
 		this.allowedTypes = allowedTypes ?? ["fleeting", "literature", "permanent"];
 
-		this.setPlaceholder("ノートタイプを選択...");
+		this.setPlaceholder(t("modals.noteType.placeholder"));
 		this.modalEl.addClass("daily-zettel-modal");
 	}
 

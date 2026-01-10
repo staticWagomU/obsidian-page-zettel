@@ -1,5 +1,6 @@
 import { App, Modal, Setting } from "obsidian";
 import type DailyZettelPlugin from "../../main";
+import { t } from "../../i18n";
 
 export class QuickCaptureModal extends Modal {
 	private plugin: DailyZettelPlugin;
@@ -19,15 +20,15 @@ export class QuickCaptureModal extends Modal {
 		contentEl.addClass("daily-zettel-modal");
 
 		// モーダルタイトル
-		contentEl.createEl("h2", { text: "Quick fleeting note" });
+		contentEl.createEl("h2", { text: t("modals.quickCapture.title") });
 
 		// テキストエリア設定
 		new Setting(contentEl)
-			.setName("Title")
-			.setDesc("Enter your fleeting note title.")
+			.setName(t("modals.quickCapture.inputName"))
+			.setDesc(t("modals.quickCapture.inputDesc"))
 			.addText((text) => {
 				this.titleInput = text.inputEl;
-				text.setPlaceholder("Enter title...")
+				text.setPlaceholder(t("modals.quickCapture.inputPlaceholder"))
 					.onChange(() => {
 						// 入力値の変更を監視
 					})
@@ -51,14 +52,14 @@ export class QuickCaptureModal extends Modal {
 		new Setting(contentEl)
 			.addButton((btn) =>
 				btn
-					.setButtonText("Create")
+					.setButtonText(t("modals.quickCapture.createButton"))
 					.setCta()
 					.onClick(() => {
 						this.handleSubmit();
 					}),
 			)
 			.addButton((btn) =>
-				btn.setButtonText("Cancel").onClick(() => {
+				btn.setButtonText(t("modals.quickCapture.cancelButton")).onClick(() => {
 					this.close();
 				}),
 			);

@@ -4,6 +4,7 @@ import { StructureSuggestModal } from "../modals/structure-suggest-modal";
 import { ConnectionManager } from "../../core/connection-manager";
 import type { DailyZettelSettings } from "../../types/settings";
 import type { OrphanStats } from "../../types";
+import { t } from "../../i18n";
 
 export const VIEW_TYPE_ORPHAN = "orphan-permanent-view";
 
@@ -26,7 +27,7 @@ export class OrphanView extends ItemView {
 	}
 
 	getDisplayText(): string {
-		return "Orphan permanent notes";
+		return t("views.orphan.title");
 	}
 
 	getIcon(): string {
@@ -62,7 +63,7 @@ export class OrphanView extends ItemView {
 				void (async () => {
 					if (structureFile) {
 						await this.connectionManager.linkPermanentToStructure(note, structureFile);
-						new Notice(`✅ ${structureFile.basename} に接続しました`);
+						new Notice(t("notices.linkSuccess", { name: structureFile.basename }));
 						// ビューを自動更新（接続されたノートはリストから削除される）
 						await this.refresh();
 					}
@@ -86,11 +87,15 @@ export class OrphanView extends ItemView {
 
 		// ヘッダーとリフレッシュボタン
 		const header = container.createDiv({ cls: "orphan-view-header" });
-		header.createEl("h4", { text: "Orphan permanent notes" });
+		header.createEl("h4", { text: t("views.orphan.title") });
 
 		// 統計情報を表示
 		if (this.orphanStats) {
-			const statsText = `📊 接続率: ${this.orphanStats.connectionRate.toFixed(1)}% (${this.orphanStats.orphans} / ${this.orphanStats.total} 件が未接続)`;
+			const statsText = t("views.orphan.stats", {
+				rate: this.orphanStats.connectionRate.toFixed(1),
+				orphans: String(this.orphanStats.orphans),
+				total: String(this.orphanStats.total),
+			});
 			header.createDiv({
 				text: statsText,
 				cls: "orphan-view-stats",
@@ -98,7 +103,7 @@ export class OrphanView extends ItemView {
 		}
 
 		const refreshButton = header.createEl("button", {
-			text: "更新",
+			text: t("views.orphan.refreshButton"),
 			cls: "orphan-view-refresh-button",
 		});
 		refreshButton.addEventListener("click", () => {
@@ -108,7 +113,7 @@ export class OrphanView extends ItemView {
 		// 孤立ノートリスト
 		if (this.orphanNotes.length === 0) {
 			container.createDiv({
-				text: "孤立したPermanent Noteはありません",
+				text: t("views.orphan.emptyMessage"),
 				cls: "orphan-view-empty",
 			});
 		} else {
@@ -129,7 +134,7 @@ export class OrphanView extends ItemView {
 
 				// 接続ボタン
 				const connectButton = item.createEl("button", {
-					text: "接続",
+					text: t("views.orphan.connectButton"),
 					cls: "orphan-view-connect-button",
 				});
 

@@ -4,13 +4,14 @@ import { NoteTypeModal } from "../ui/modals/note-type-modal";
 import { FrontmatterService } from "../services/frontmatter-service";
 import type DailyZettelPlugin from "../main";
 import type { NoteType } from "../types/note-types";
+import { t } from "../i18n";
 
 export async function promoteNote(plugin: DailyZettelPlugin): Promise<void> {
 	// 1. 現在のアクティブファイルを取得
 	const file = plugin.app.workspace.getActiveFile();
 
 	if (!file || !(file instanceof TFile)) {
-		new Notice("⚠️ ノートを開いてください");
+		new Notice(t("notices.openNote"));
 		return;
 	}
 
@@ -19,7 +20,7 @@ export async function promoteNote(plugin: DailyZettelPlugin): Promise<void> {
 	const currentType = await frontmatterService.getNoteType(file);
 
 	if (!currentType) {
-		new Notice("⚠️ ノートタイプが設定されていません");
+		new Notice(t("notices.noteTypeNotSet"));
 		return;
 	}
 
@@ -27,7 +28,7 @@ export async function promoteNote(plugin: DailyZettelPlugin): Promise<void> {
 	const promotableTo = PROMOTION_PATHS[currentType];
 
 	if (!promotableTo || promotableTo.length === 0) {
-		new Notice(`⚠️ ${currentType} ノートは昇格できません`);
+		new Notice(t("notices.cannotPromote", { type: currentType }));
 		return;
 	}
 
@@ -37,7 +38,7 @@ export async function promoteNote(plugin: DailyZettelPlugin): Promise<void> {
 		(toType: NoteType) => {
 			void (async () => {
 				await plugin.promotionService.promoteNote(file, currentType, toType);
-				new Notice(`✅ ${currentType} → ${toType} に昇格しました`);
+				new Notice(t("notices.promoteSuccess", { from: currentType, to: toType }));
 			})();
 		},
 		promotableTo,

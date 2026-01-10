@@ -4,6 +4,7 @@ import type { DailyZettelSettings } from "../types/settings";
 import { FrontmatterService } from "../services/frontmatter-service";
 import { TemplateService } from "../services/template-service";
 import { FolderService } from "../services/folder-service";
+import { t } from "../i18n";
 
 export interface CreateNoteOptions {
 	title: string;
@@ -69,7 +70,7 @@ export class NoteManager {
 		// 6. ファイル作成
 		const file = await this.app.vault.create(filePath, finalContent);
 
-		new Notice(`✅ Created ${NOTE_TYPE_CONFIG[type].icon} ${title}`);
+		new Notice(t("notices.noteCreated", { icon: NOTE_TYPE_CONFIG[type].icon, title }));
 
 		return file;
 	}

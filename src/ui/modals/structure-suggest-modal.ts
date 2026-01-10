@@ -1,6 +1,7 @@
 import { App, FuzzySuggestModal, TFile, Notice } from "obsidian";
 import { SuggestionService } from "../../services/suggestion-service";
 import type { DailyZettelSettings } from "../../types/settings";
+import { t } from "../../i18n";
 
 interface StructureOption {
 	file: TFile | null;
@@ -25,7 +26,7 @@ export class StructureSuggestModal extends FuzzySuggestModal<StructureOption> {
 		this.onSelect = onSelect;
 		this.suggestionService = new SuggestionService(app, settings);
 
-		this.setPlaceholder("Select structure note (or skip)...");
+		this.setPlaceholder(t("modals.structureSuggest.placeholder"));
 		this.modalEl.addClass("daily-zettel-modal");
 
 		// 提案を非同期で読み込み
@@ -48,7 +49,7 @@ export class StructureSuggestModal extends FuzzySuggestModal<StructureOption> {
 		// スキップオプションを最初に
 		options.push({
 			file: null,
-			label: "⏭️ Skip (link later)",
+			label: t("modals.structureSuggest.skipOption"),
 			isSkip: true,
 		});
 
@@ -84,7 +85,7 @@ export class StructureSuggestModal extends FuzzySuggestModal<StructureOption> {
 
 	onChooseItem(item: StructureOption): void {
 		if (item.isSkip) {
-			new Notice("You can link to a structure note later");
+			new Notice(t("notices.skipLink"));
 			this.onSelect(null);
 		} else {
 			this.onSelect(item.file);
