@@ -23,14 +23,35 @@ export class FolderService {
 	 */
 	async ensureFolderExists(type: NoteType): Promise<string> {
 		const folderPath = this.getFolderPath(type);
+		await this.ensureFolderExistsByPath(folderPath);
+		return folderPath;
+	}
 
+	/**
+	 * 指定パスのフォルダが存在することを確認し、なければ作成
+	 * 親フォルダも再帰的に作成する
+	 */
+	private async ensureFolderExistsByPath(folderPath: string): Promise<void> {
 		const existing = this.app.vault.getAbstractFileByPath(folderPath);
-
-		if (!existing) {
-			await this.app.vault.createFolder(folderPath);
+		if (existing) {
+			return; // 既に存在する
 		}
 
-		return folderPath;
+		// 親フォルダを先に作成
+		const parentPath = folderPath.split("/").slice(0, -1).join("/");
+		if (parentPath) {
+			await this.ensureFolderExistsByPath(parentPath);
+		}
+
+		// 親フォルダ作成後に再度チェック（競合状態対策）
+		const existingAfterParent = this.app.vault.getAbstractFileByPath(folderPath);
+		if (!existingAfterParent) {
+			try {
+				await this.app.vault.createFolder(folderPath);
+			} catch {
+				// フォルダが既に存在する場合のエラーを無視
+			}
+		}
 	}
 
 	/**
@@ -47,9 +68,6 @@ export class FolderService {
 
 		// テンプレートフォルダを作成
 		const templateFolder = this.settings.folders.templateFolder;
-		const existing = this.app.vault.getAbstractFileByPath(templateFolder);
-		if (!existing) {
-			await this.app.vault.createFolder(templateFolder);
-		}
+		await this.ensureFolderExistsByPath(templateFolder);
 	}
 }
