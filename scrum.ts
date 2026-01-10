@@ -33,9 +33,34 @@ const scrum: ScrumDashboard = {
     { id: "PBI-009", story: { role: "Obsidianモバイルユーザー", capability: "ワンタップでFleeting Note作成", benefit: "デイリーノートを開かずに素早くアイデアキャプチャ" }, acceptance_criteria: [{ criterion: "QuickCaptureModal（テキスト入力+Enter/Escape+ボタン）", verification: "Modal表示確認" }, { criterion: "quick-fleetingコマンド登録（絵文字切り替え対応）", verification: "コマンドパレット→Modal起動" }, { criterion: "NoteManager.createNote統合→10-Fleeting→自動オープン", verification: "E2Eノート作成確認" }], status: "done" },
     { id: "PBI-010", story: { role: "Zettelkasten実践者", capability: "プラグイン初回起動時にフォルダ構造自動生成", benefit: "手動フォルダ作成不要でZettelkasten開始" }, acceptance_criteria: [{ criterion: "FolderService.initializeAllFolders()（全NoteType[\"fleeting\", \"literature\", \"permanent\", \"structure\", \"index\"]に対しensureFolderExists()呼び出し、settings.folders.templateFolderも作成、既存フォルダはスキップ）", verification: "メソッド呼び出し後、vault.getAbstractFileByPath()で6フォルダ存在確認" }, { criterion: "main.ts onload()内で、settings読込後・services初期化前にFolderService.initializeAllFolders()呼び出し", verification: "プラグイン有効化（初回起動）→vault確認で自動フォルダ作成、2回目起動で既存フォルダスキップ" }], status: "done" },
     { id: "PBI-011", story: { role: "Zettelkasten実践者", capability: "Permanent Note接続率を数値で確認", benefit: "知識ネットワーク健全性の定量把握" }, acceptance_criteria: [{ criterion: "OrphanDetectorService.getStats()（型定義: interface OrphanStats { total: number; orphans: number; connected: number; connectionRate: number; }、全permanentノート数取得→getOrphanPermanentNotes()で孤立数→connected = total - orphans→connectionRate計算）", verification: "メソッド呼び出しでOrphanStatsオブジェクト取得、total/orphans/connected/connectionRate値の整合性確認" }, { criterion: "OrphanView.onOpen()でOrphanDetectorService.getStats()呼び出し、ヘッダーに統計情報表示（\"📊 接続率: X% (Y / Z 件が未接続)\"形式、リフレッシュ時に統計更新）", verification: "サイドバービュー開く→ヘッダー統計表示確認、リフレッシュボタン→統計更新確認" }], status: "done" },
+    // Phase 5: 設定UX改善
+    { id: "PBI-012", story: { role: "Zettelkasten実践者", capability: "設定画面でフォルダをサジェストから選択", benefit: "手入力のタイポ防止・既存フォルダの発見" }, acceptance_criteria: [{ criterion: "FolderSuggest extends AbstractInputSuggest<TFolder>（getSuggestions: vault.getAllLoadedFiles()→TFolderフィルタ→入力文字列で部分一致検索、renderSuggestion: folder.path表示、selectSuggestion: inputEl.valueに設定→close()）", verification: "src/ui/suggesters/folder-suggest.ts存在、pnpm build成功" }, { criterion: "DailyZettelSettingTab内の7つのフォルダ入力テキストボックス（Fleeting/Literature/Permanent/Structure/Index/Template/DailyNote）にFolderSuggestをアタッチ", verification: "設定画面→各フォルダ入力欄で文字入力→既存フォルダがドロップダウン表示" }, { criterion: "サジェスト選択時にonChange発火→settings自動保存", verification: "サジェストから選択→設定タブを閉じて再開→選択値が保持" }], status: "ready" },
   ],
 
-  sprint: null,
+  sprint: {
+    number: 12,
+    pbi_id: "PBI-012",
+    goal: "FolderSuggest機能で設定画面のUX向上",
+    status: "in_progress",
+    subtasks: [
+      {
+        test: "FolderSuggest extends AbstractInputSuggest<TFolder>（getSuggestions: vault.getAllLoadedFiles()→TFolderフィルタ→入力文字列で部分一致検索、renderSuggestion: folder.path表示、selectSuggestion: inputEl.valueに設定→close()）",
+        implementation: "src/ui/suggesters/folder-suggest.ts",
+        type: "behavioral",
+        status: "green",
+        commits: [],
+        notes: [],
+      },
+      {
+        test: "DailyZettelSettingTab内の7つのフォルダ入力テキストボックス（Fleeting/Literature/Permanent/Structure/Index/Template/DailyNote）にFolderSuggestをアタッチ、サジェスト選択時にonChange発火→settings自動保存",
+        implementation: "src/settings.ts",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [],
+      },
+    ],
+  },
 
   definition_of_done: {
     checks: [
