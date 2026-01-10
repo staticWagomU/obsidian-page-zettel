@@ -77,7 +77,8 @@ const scrum: ScrumDashboard = {
     { sprint: 9, improvements: [{ action: "既存実装拡張パターン継続", timing: "sprint", status: "completed", outcome: "getStats()+UI統合成功" }] },
     { sprint: 10, improvements: [{ action: "Modal実装前に既存Modal調査を必須化", timing: "sprint", status: "completed", outcome: "Sprint11でModal不使用" }] },
     { sprint: 11, improvements: [{ action: "既存Service活用を実装前調査で確認", timing: "sprint", status: "completed", outcome: "Sprint12でAbstractInputSuggest調査・活用成功" }] },
-    { sprint: 12, improvements: [{ action: "Obsidian API既存クラス継承パターン（AbstractInputSuggest, Modal等）の活用を継続", timing: "sprint", status: "active", outcome: null }] },
+    { sprint: 12, improvements: [{ action: "Obsidian API既存クラス継承パターン（AbstractInputSuggest, Modal等）の活用を継続", timing: "sprint", status: "completed", outcome: "Sprint13でworkspace events（editor-menu, file-menu）パターン適用成功" }] },
+    { sprint: 13, improvements: [{ action: "Refinementでの型定義事前確認を継続", timing: "sprint", status: "active", outcome: null }, { action: "workspace eventsパターン（editor-menu, file-menu等）の活用を継続", timing: "sprint", status: "active", outcome: null }] },
   ],
 };
 
