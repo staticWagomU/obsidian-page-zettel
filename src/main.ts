@@ -4,6 +4,7 @@ import type { DailyZettelSettings } from "./types/settings";
 import { NoteManager } from "./core/note-manager";
 import { ConnectionManager } from "./core/connection-manager";
 import { PromotionService } from "./services/promotion-service";
+import { FolderService } from "./services/folder-service";
 import { extractSelection } from "./commands/extract-selection-command";
 import { promoteNote } from "./commands/promote-note-command";
 import { linkPermanent } from "./commands/link-permanent-command";
@@ -18,6 +19,10 @@ export default class DailyZettelPlugin extends Plugin {
 
 	async onload() {
 		await this.loadSettings();
+
+		// Initialize folder structure on first load
+		const folderService = new FolderService(this.app, this.settings);
+		await folderService.initializeAllFolders();
 
 		// Initialize services
 		this.noteManager = new NoteManager(this.app, this.settings);
