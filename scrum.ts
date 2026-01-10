@@ -38,11 +38,50 @@ const scrum: ScrumDashboard = {
     // Phase 6: アクセシビリティ改善
     { id: "PBI-013", story: { role: "Obsidianモバイルユーザー", capability: "右クリックコンテキストメニューからノート操作を実行", benefit: "コマンドパレットを開かずに素早くアクセス" }, acceptance_criteria: [{ criterion: "エディタコンテキストメニュー統合（workspace.on('editor-menu')をregisterEvent、選択テキストがある場合「選択範囲から新規ノート」表示、常時「ノートを昇格」「Structure Noteに接続」表示、menu.addItem()で追加）", verification: "エディタ右クリック→メニュー項目表示確認、選択状態で項目変化確認" }, { criterion: "ファイルエクスプローラコンテキストメニュー統合（workspace.on('file-menu')をregisterEvent、.mdファイル右クリック時「ノートを昇格」「Structure Noteに接続」表示、menu.addItem()で追加）", verification: "ファイルエクスプローラで.mdファイル右クリック→メニュー項目表示確認" }, { criterion: "設定画面でコンテキストメニュー表示ON/OFF切り替え（settings.ui.showContextMenuItemsトグル追加、デフォルト: true、トグルOFF時はregisterEvent呼び出しスキップ）", verification: "設定画面→トグル表示確認、OFF時メニュー非表示、ON時メニュー表示" }], status: "done" },
     // Phase 7: 国際化対応
-    { id: "PBI-014", story: { role: "Obsidianモバイルユーザー", capability: "UIを英語/日本語で表示", benefit: "言語設定に合わせた自然なUI体験" }, acceptance_criteria: [{ criterion: "i18n基盤構築（src/i18n/index.ts: t()関数・getCurrentLocale()実装、src/i18n/locales/en.json: 英語翻訳JSON、src/i18n/locales/ja.json: 日本語翻訳JSON、getLanguage() APIでObsidianのロケールを検出、デフォルトjaにフォールバック）", verification: "t('commands.extractSelection')等の呼び出しでlocaleに応じた文字列取得、pnpm build成功" }, { criterion: "コマンド・コンテキストメニューのi18n化（main.ts: 4つのaddCommand().name・3つのeditor-menu setTitle()・2つのfile-menu setTitle()をt()で置換、絵文字設定対応維持）", verification: "Obsidian言語設定en/ja切り替え→コマンドパレット・コンテキストメニューの表示言語切り替え確認" }, { criterion: "設定画面のi18n化（settings.ts: 3セクションヘッディング・12項目のsetName()/setDesc()/setPlaceholder()をt()で置換、dropdownのaddOption()ラベルもi18n化）", verification: "Obsidian言語設定en/ja切り替え→設定画面の全テキスト表示言語切り替え確認" }, { criterion: "モーダル・ビュー・Noticeのi18n化（QuickCaptureModal: 3箇所、StructureSuggestModal: 2箇所、NoteTypeModal: 1箇所、OrphanView: 5箇所、Notice messages: 9箇所、NoteManager: 1箇所、ribbon icon: 1箇所をt()で置換）", verification: "Obsidian言語設定en/ja切り替え→Modal・View・Notice・ribbon iconの全テキスト表示言語切り替え確認" }], status: "ready" },
-    { id: "PBI-015", story: { role: "Obsidianモバイルユーザー", capability: "コンテキストメニューでプラグインコマンドをグルーピング表示", benefit: "視覚的に整理されたメニューで操作性向上" }, acceptance_criteria: [{ criterion: "エディタコンテキストメニューグルーピング（menu.addItem().setSection('page-zettel')使用、セクション内に「選択範囲から新規ノート」「ノートを昇格」「Structure Noteに接続」を配置、menu.addSeparator()でセクション前後を視覚的分離）", verification: "エディタ右クリック→セパレーターで区切られたPage Zettelセクション表示→各コマンド選択可能" }, { criterion: "ファイルエクスプローラコンテキストメニューグルーピング（menu.addItem().setSection('page-zettel')使用、セクション内に「ノートを昇格」「Structure Noteに接続」を配置、menu.addSeparator()でセクション前後を視覚的分離）", verification: "ファイルエクスプローラ.md右クリック→セパレーターで区切られたPage Zettelセクション表示→各コマンド選択可能" }, { criterion: "絵文字設定対応維持（settings.ui.showEmojiInCommandsに応じてメニュー項目の絵文字表示切り替え）", verification: "絵文字ON時は「📝 選択範囲から新規ノート」等、OFF時は絵文字なし表示" }], status: "done" }]
+    { id: "PBI-014", story: { role: "Obsidianモバイルユーザー", capability: "UIを英語/日本語で表示", benefit: "言語設定に合わせた自然なUI体験" }, acceptance_criteria: [{ criterion: "i18n基盤構築（src/i18n/index.ts: t()関数・getCurrentLocale()実装、src/i18n/locales/en.json: 英語翻訳JSON、src/i18n/locales/ja.json: 日本語翻訳JSON、getLanguage() APIでObsidianのロケールを検出、デフォルトjaにフォールバック）", verification: "t('commands.extractSelection')等の呼び出しでlocaleに応じた文字列取得、pnpm build成功" }, { criterion: "コマンド・コンテキストメニューのi18n化（main.ts: 4つのaddCommand().name・3つのeditor-menu setTitle()・2つのfile-menu setTitle()をt()で置換、絵文字設定対応維持）", verification: "Obsidian言語設定en/ja切り替え→コマンドパレット・コンテキストメニューの表示言語切り替え確認" }, { criterion: "設定画面のi18n化（settings.ts: 3セクションヘッディング・12項目のsetName()/setDesc()/setPlaceholder()をt()で置換、dropdownのaddOption()ラベルもi18n化）", verification: "Obsidian言語設定en/ja切り替え→設定画面の全テキスト表示言語切り替え確認" }, { criterion: "モーダル・ビュー・Noticeのi18n化（QuickCaptureModal: 3箇所、StructureSuggestModal: 2箇所、NoteTypeModal: 1箇所、OrphanView: 5箇所、Notice messages: 9箇所、NoteManager: 1箇所、ribbon icon: 1箇所をt()で置換）", verification: "Obsidian言語設定en/ja切り替え→Modal・View・Notice・ribbon iconの全テキスト表示言語切り替え確認" }], status: "in_progress" },
+    { id: "PBI-015", story: { role: "Obsidianモバイルユーザー", capability: "コンテキストメニューでプラグインコマンドをグルーピング表示", benefit: "視覚的に整理されたメニューで操作性向上" }, acceptance_criteria: [{ criterion: "エディタコンテキストメニューグルーピング（menu.addItem().setSection('page-zettel')使用、セクション内に「選択範囲から新規ノート」「ノートを昇格」「Structure Noteに接続」を配置、menu.addSeparator()でセクション前後を視覚的分離）", verification: "エディタ右クリック→セパレーターで区切られたPage Zettelセクション表示→各コマンド選択可能" }, { criterion: "ファイルエクスプローラコンテキストメニューグルーピング（menu.addItem().setSection('page-zettel')使用、セクション内に「ノートを昇格」「Structure Noteに接続」を配置、menu.addSeparator()でセクション前後を視覚的分離）", verification: "ファイルエクスプローラ.md右クリック→セパレーターで区切られたPage Zettelセクション表示→各コマンド選択可能" }, { criterion: "絵文字設定対応維持（settings.ui.showEmojiInCommandsに応じてメニュー項目の絵文字表示切り替え）", verification: "絵文字ON時は「📝 選択範囲から新規ノート」等、OFF時は絵文字なし表示" }], status: "done" },
   ],
 
-  sprint: null,
+  sprint: {
+    number: 15,
+    pbi_id: "PBI-014",
+    goal: "i18n国際化対応基盤の構築と全UI要素の多言語化",
+    status: "in_progress",
+    subtasks: [
+      {
+        test: "i18n基盤構築（src/i18n/index.ts: t()関数・getCurrentLocale()実装、src/i18n/locales/en.json: 英語翻訳JSON、src/i18n/locales/ja.json: 日本語翻訳JSON、getLanguage() APIでObsidianのロケールを検出、デフォルトjaにフォールバック）",
+        implementation: "src/i18n/index.ts, src/i18n/locales/en.json, src/i18n/locales/ja.json",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [],
+      },
+      {
+        test: "コマンド・コンテキストメニューのi18n化（main.ts: 4つのaddCommand().name・3つのeditor-menu setTitle()・2つのfile-menu setTitle()をt()で置換、絵文字設定対応維持）",
+        implementation: "src/main.ts",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [],
+      },
+      {
+        test: "設定画面のi18n化（settings.ts: 3セクションヘッディング・12項目のsetName()/setDesc()/setPlaceholder()をt()で置換、dropdownのaddOption()ラベルもi18n化）",
+        implementation: "src/settings.ts",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [],
+      },
+      {
+        test: "モーダル・ビュー・Noticeのi18n化（QuickCaptureModal: 3箇所、StructureSuggestModal: 2箇所、NoteTypeModal: 1箇所、OrphanView: 5箇所、Notice messages: 9箇所、NoteManager: 1箇所、ribbon icon: 1箇所をt()で置換）",
+        implementation: "src/ui/modals/quick-capture-modal.ts, src/ui/modals/structure-suggest-modal.ts, src/ui/modals/note-type-modal.ts, src/ui/views/orphan-view.ts, src/core/note-manager.ts, src/main.ts (ribbon)",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [],
+      },
+    ],
+  },
 
   definition_of_done: {
     checks: [
