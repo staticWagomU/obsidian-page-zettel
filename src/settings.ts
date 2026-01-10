@@ -204,5 +204,17 @@ export class DailyZettelSettingTab extends PluginSettingTab {
 						await this.plugin.saveSettings();
 					}),
 			);
+
+		new Setting(containerEl)
+			.setName("コンテキストメニューに表示")
+			.setDesc("右クリックメニューにノート操作を表示します")
+			.addToggle((toggle) =>
+				toggle
+					.setValue(this.plugin.settings.ui.showContextMenuItems)
+					.onChange(async (value) => {
+						this.plugin.settings.ui.showContextMenuItems = value;
+						await this.plugin.saveSettings();
+					}),
+			);
 	}
 }

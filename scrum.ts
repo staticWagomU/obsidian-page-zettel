@@ -61,7 +61,7 @@ const scrum: ScrumDashboard = {
         type: "behavioral",
         status: "completed",
         commits: [
-          { hash: "", message: "feat(PBI-013): implement file explorer context menu integration", phase: "green" },
+          { hash: "ef716b0", message: "feat(PBI-013): implement file explorer context menu integration", phase: "green" },
         ],
         notes: [],
       },
@@ -69,8 +69,10 @@ const scrum: ScrumDashboard = {
         test: "設定画面UI追加（settings.ui.showContextMenuItemsトグル追加、UI設定セクションに配置、デフォルト: true）",
         implementation: "src/settings.ts",
         type: "behavioral",
-        status: "pending",
-        commits: [],
+        status: "completed",
+        commits: [
+          { hash: "", message: "feat(PBI-013): add showContextMenuItems toggle to settings", phase: "green" },
+        ],
         notes: [],
       },
     ],
