@@ -1,5 +1,3 @@
-import { NoteType } from "./note-types";
-
 /**
  * 各ノートタイプの詳細設定
  */

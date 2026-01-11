@@ -86,10 +86,12 @@ export class PageZettelSettingTab extends PluginSettingTab {
 			.setName(t("settings.noteTypes.fleeting.showAliasInput.name"))
 			.setDesc(t("settings.noteTypes.fleeting.showAliasInput.desc"))
 			.addToggle((toggle) =>
-				toggle.setValue(this.plugin.settings.fleeting.showAliasInput).onChange(async (value) => {
-					this.plugin.settings.fleeting.showAliasInput = value;
-					await this.plugin.saveSettings();
-				}),
+				toggle
+					.setValue(this.plugin.settings.fleeting.showAliasInput)
+					.onChange(async (value) => {
+						this.plugin.settings.fleeting.showAliasInput = value;
+						await this.plugin.saveSettings();
+					}),
 			);
 
 		new Setting(containerEl)
@@ -138,10 +140,12 @@ export class PageZettelSettingTab extends PluginSettingTab {
 			.setName(t("settings.noteTypes.literature.showAliasInput.name"))
 			.setDesc(t("settings.noteTypes.literature.showAliasInput.desc"))
 			.addToggle((toggle) =>
-				toggle.setValue(this.plugin.settings.literature.showAliasInput).onChange(async (value) => {
-					this.plugin.settings.literature.showAliasInput = value;
-					await this.plugin.saveSettings();
-				}),
+				toggle
+					.setValue(this.plugin.settings.literature.showAliasInput)
+					.onChange(async (value) => {
+						this.plugin.settings.literature.showAliasInput = value;
+						await this.plugin.saveSettings();
+					}),
 			);
 
 		new Setting(containerEl)
@@ -190,10 +194,12 @@ export class PageZettelSettingTab extends PluginSettingTab {
 			.setName(t("settings.noteTypes.permanent.showAliasInput.name"))
 			.setDesc(t("settings.noteTypes.permanent.showAliasInput.desc"))
 			.addToggle((toggle) =>
-				toggle.setValue(this.plugin.settings.permanent.showAliasInput).onChange(async (value) => {
-					this.plugin.settings.permanent.showAliasInput = value;
-					await this.plugin.saveSettings();
-				}),
+				toggle
+					.setValue(this.plugin.settings.permanent.showAliasInput)
+					.onChange(async (value) => {
+						this.plugin.settings.permanent.showAliasInput = value;
+						await this.plugin.saveSettings();
+					}),
 			);
 
 		new Setting(containerEl)
