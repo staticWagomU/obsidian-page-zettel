@@ -62,7 +62,7 @@ const scrum: ScrumDashboard = {
         { criterion: "PromotionService更新（PROMOTION_PATHS変更: fleeting→permanent、literature→なし、permanent→なし）", verification: "types/note-types.tsでPROMOTION_PATHS確認、promoteNote動作確認" },
         { criterion: "ビルドとlintが通る", verification: "pnpm build && pnpm lint" },
       ],
-      status: "ready",
+      status: "done",
       refinement_notes: [
         "削除対象ファイル: connection-manager.ts(53行), structure-suggest-modal.ts(95行), suggestion-service.ts(122行), link-permanent-command.ts(42行)",
         "main.ts依存: ConnectionManager(L5,18,30,68-69,138-143,168-177)削除",
@@ -198,7 +198,78 @@ const scrum: ScrumDashboard = {
     },
   ],
 
-  sprint: null,
+  sprint: {
+    number: 16,
+    pbi_id: "PBI-016",
+    goal: "不要なStructure/Index関連コードを削除し、ノートタイプを3種類に整理",
+    status: "in_progress",
+    subtasks: [
+      {
+        test: "connection-manager.ts, structure-suggest-modal.ts, suggestion-service.ts, link-permanent-command.tsの4ファイルが存在しないこと",
+        implementation: "src/core/connection-manager.ts, src/ui/modals/structure-suggest-modal.ts, src/services/suggestion-service.ts, src/commands/link-permanent-command.tsを削除",
+        type: "structural",
+        status: "pending",
+        commits: [],
+        notes: []
+      },
+      {
+        test: "main.ts内でConnectionManager|StructureSuggestModal|linkPermanentがgrepで検出されないこと",
+        implementation: "src/main.tsからConnectionManager import/初期化/link-permanentコマンド/コンテキストメニュー項目を削除（L5,18,30,68-69,138-143,168-177）",
+        type: "structural",
+        status: "pending",
+        commits: [],
+        notes: []
+      },
+      {
+        test: "orphan-view.ts内で接続ボタンが存在せず、StructureSuggestModal|ConnectionManagerがgrepで検出されないこと",
+        implementation: "src/ui/views/orphan-view.tsからStructureSuggestModal(L3), ConnectionManager(L4,13,22,65), connectNote(L57-75)を削除",
+        type: "structural",
+        status: "pending",
+        commits: [],
+        notes: []
+      },
+      {
+        test: "settings.ts内でindex設定/structure設定/suggestStructureOnPermanent設定が存在しないこと",
+        implementation: "src/settings.tsからindex設定(L101-112), structure設定(L88-99), suggestStructureOnPermanent(L155-165)を削除",
+        type: "structural",
+        status: "pending",
+        commits: [],
+        notes: []
+      },
+      {
+        test: "NoteType型が\"fleeting\"|\"literature\"|\"permanent\"のみで、NOTE_TYPE_CONFIG/PROMOTION_PATHSからstructure/indexが削除されていること",
+        implementation: "src/types/note-types.tsから'structure'|'index'削除、NOTE_TYPE_CONFIG/PROMOTION_PATHS更新",
+        type: "structural",
+        status: "pending",
+        commits: [],
+        notes: []
+      },
+      {
+        test: "folder-service.tsのnoteTypes配列に'structure', 'index'が存在しないこと",
+        implementation: "src/services/folder-service.tsのinitializeAllFolders()から'structure', 'index'削除（L63）",
+        type: "structural",
+        status: "pending",
+        commits: [],
+        notes: []
+      },
+      {
+        test: "i18n/locales/*.json内でstructure/index関連翻訳（settings.folders, commands.linkPermanent等）が検出されないこと",
+        implementation: "src/i18n/locales/en.json, src/i18n/locales/ja.jsonからstructure/index関連翻訳削除",
+        type: "structural",
+        status: "pending",
+        commits: [],
+        notes: []
+      },
+      {
+        test: "pnpm build && pnpm lintが成功すること",
+        implementation: "Definition of Done検証実行",
+        type: "structural",
+        status: "pending",
+        commits: [],
+        notes: []
+      }
+    ]
+  },
 
   definition_of_done: {
     checks: [
