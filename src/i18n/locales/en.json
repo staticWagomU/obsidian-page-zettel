@@ -2,7 +2,6 @@
 	"commands": {
 		"extractSelection": "Extract selection to new note",
 		"promoteNote": "Promote note",
-		"linkPermanent": "Link to Structure Note",
 		"quickFleeting": "Quick fleeting note"
 	},
 	"settings": {
@@ -23,16 +22,6 @@
 				"desc": "Folder for permanent knowledge",
 				"placeholder": "20-permanent"
 			},
-			"structure": {
-				"name": "Structure notes folder",
-				"desc": "Folder for structure notes",
-				"placeholder": "30-structure"
-			},
-			"index": {
-				"name": "Index notes folder",
-				"desc": "Folder for index notes",
-				"placeholder": "40-index"
-			},
 			"template": {
 				"name": "Templates folder",
 				"desc": "Folder for note templates",
@@ -49,10 +38,6 @@
 			"insertLinkAfterExtract": {
 				"name": "Insert link after extraction",
 				"desc": "Insert a link to the new note in the original note after extraction"
-			},
-			"suggestStructureOnPermanent": {
-				"name": "Suggest structure on permanent note",
-				"desc": "Suggest connecting to structure notes when creating permanent notes"
 			},
 			"moveOnPromotion": {
 				"name": "Move folder on promotion",
@@ -89,10 +74,6 @@
 			"createButton": "Create",
 			"cancelButton": "Cancel"
 		},
-		"structureSuggest": {
-			"placeholder": "Select structure note (or skip)...",
-			"skipOption": "⏭️ Skip (link later)"
-		},
 		"noteType": {
 			"placeholder": "Select note type..."
 		}
@@ -102,8 +83,7 @@
 			"title": "Orphan permanent notes",
 			"stats": "📊 Connection rate: {rate}% ({orphans} / {total} unconnected)",
 			"refreshButton": "Refresh",
-			"emptyMessage": "No orphan permanent notes",
-			"connectButton": "Connect"
+			"emptyMessage": "No orphan permanent notes"
 		}
 	},
 	"notices": {
@@ -112,9 +92,6 @@
 		"noteTypeNotSet": "⚠️ Note type is not set",
 		"cannotPromote": "⚠️ {type} notes cannot be promoted",
 		"promoteSuccess": "✅ Promoted from {from} to {to}",
-		"permanentOnly": "⚠️ Only permanent notes can be linked",
-		"linkSuccess": "✅ Linked to {name}",
-		"skipLink": "You can link to a structure note later",
 		"noteCreated": "✅ Created {icon} {title}"
 	},
 	"ribbon": {
