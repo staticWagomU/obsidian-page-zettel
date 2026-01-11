@@ -7,21 +7,6 @@
 	"settings": {
 		"folders": {
 			"heading": "フォルダ設定",
-			"fleeting": {
-				"name": "Fleetingノートフォルダ",
-				"desc": "一時的なアイデアを保存するフォルダ",
-				"placeholder": "00-inbox/fleeting"
-			},
-			"literature": {
-				"name": "Literatureノートフォルダ",
-				"desc": "文献メモを保存するフォルダ",
-				"placeholder": "10-literature"
-			},
-			"permanent": {
-				"name": "Permanentノートフォルダ",
-				"desc": "永続的な知識を保存するフォルダ",
-				"placeholder": "20-permanent"
-			},
 			"template": {
 				"name": "テンプレートフォルダ",
 				"desc": "ノート作成時に使用するテンプレートを保存するフォルダ",
@@ -31,6 +16,74 @@
 				"name": "デイリーノートフォルダ",
 				"desc": "デイリーノートを保存するフォルダ",
 				"placeholder": "00-inbox/daily"
+			}
+		},
+		"noteTypes": {
+			"fleeting": {
+				"heading": "Fleetingノート設定",
+				"folder": {
+					"name": "フォルダ",
+					"desc": "Fleetingノートを保存するフォルダ",
+					"placeholder": "10-Fleeting"
+				},
+				"fileNameFormat": {
+					"name": "ファイル名形式",
+					"desc": "プレースホルダーを使用したファイル名形式: {{date}}, {{zettel-id}}, {{title}}, {{alias}}",
+					"placeholder": "{{date}}-{{title}}"
+				},
+				"showAliasInput": {
+					"name": "エイリアス入力を表示",
+					"desc": "ノート作成時にエイリアス入力フィールドを表示します"
+				},
+				"templatePath": {
+					"name": "テンプレートファイル",
+					"desc": "テンプレートファイル名（テンプレートフォルダからの相対パス）",
+					"placeholder": "fleeting-template.md"
+				}
+			},
+			"literature": {
+				"heading": "Literatureノート設定",
+				"folder": {
+					"name": "フォルダ",
+					"desc": "Literatureノートを保存するフォルダ",
+					"placeholder": "20-Literature"
+				},
+				"fileNameFormat": {
+					"name": "ファイル名形式",
+					"desc": "プレースホルダーを使用したファイル名形式: {{date}}, {{zettel-id}}, {{title}}, {{alias}}",
+					"placeholder": "{{date}}-{{title}}"
+				},
+				"showAliasInput": {
+					"name": "エイリアス入力を表示",
+					"desc": "ノート作成時にエイリアス入力フィールドを表示します"
+				},
+				"templatePath": {
+					"name": "テンプレートファイル",
+					"desc": "テンプレートファイル名（テンプレートフォルダからの相対パス）",
+					"placeholder": "literature-template.md"
+				}
+			},
+			"permanent": {
+				"heading": "Permanentノート設定",
+				"folder": {
+					"name": "フォルダ",
+					"desc": "Permanentノートを保存するフォルダ",
+					"placeholder": "30-Permanent"
+				},
+				"fileNameFormat": {
+					"name": "ファイル名形式",
+					"desc": "プレースホルダーを使用したファイル名形式: {{date}}, {{zettel-id}}, {{title}}, {{alias}}",
+					"placeholder": "{{zettel-id}}-{{title}}"
+				},
+				"showAliasInput": {
+					"name": "エイリアス入力を表示",
+					"desc": "ノート作成時にエイリアス入力フィールドを表示します"
+				},
+				"templatePath": {
+					"name": "テンプレートファイル",
+					"desc": "テンプレートファイル名（テンプレートフォルダからの相対パス）",
+					"placeholder": "permanent-template.md"
+				}
 			}
 		},
 		"behavior": {

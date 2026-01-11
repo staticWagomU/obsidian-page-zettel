@@ -7,21 +7,6 @@
 	"settings": {
 		"folders": {
 			"heading": "Folder Settings",
-			"fleeting": {
-				"name": "Fleeting notes folder",
-				"desc": "Folder for temporary ideas",
-				"placeholder": "00-inbox/fleeting"
-			},
-			"literature": {
-				"name": "Literature notes folder",
-				"desc": "Folder for literature notes",
-				"placeholder": "10-literature"
-			},
-			"permanent": {
-				"name": "Permanent notes folder",
-				"desc": "Folder for permanent knowledge",
-				"placeholder": "20-permanent"
-			},
 			"template": {
 				"name": "Templates folder",
 				"desc": "Folder for note templates",
@@ -31,6 +16,74 @@
 				"name": "Daily notes folder",
 				"desc": "Folder for daily notes",
 				"placeholder": "00-inbox/daily"
+			}
+		},
+		"noteTypes": {
+			"fleeting": {
+				"heading": "Fleeting Note Settings",
+				"folder": {
+					"name": "Folder",
+					"desc": "Folder for fleeting notes",
+					"placeholder": "10-Fleeting"
+				},
+				"fileNameFormat": {
+					"name": "File name format",
+					"desc": "File name format with placeholders: {{date}}, {{zettel-id}}, {{title}}, {{alias}}",
+					"placeholder": "{{date}}-{{title}}"
+				},
+				"showAliasInput": {
+					"name": "Show alias input",
+					"desc": "Show alias input field when creating note"
+				},
+				"templatePath": {
+					"name": "Template file",
+					"desc": "Template file name (relative to templates folder)",
+					"placeholder": "fleeting-template.md"
+				}
+			},
+			"literature": {
+				"heading": "Literature Note Settings",
+				"folder": {
+					"name": "Folder",
+					"desc": "Folder for literature notes",
+					"placeholder": "20-Literature"
+				},
+				"fileNameFormat": {
+					"name": "File name format",
+					"desc": "File name format with placeholders: {{date}}, {{zettel-id}}, {{title}}, {{alias}}",
+					"placeholder": "{{date}}-{{title}}"
+				},
+				"showAliasInput": {
+					"name": "Show alias input",
+					"desc": "Show alias input field when creating note"
+				},
+				"templatePath": {
+					"name": "Template file",
+					"desc": "Template file name (relative to templates folder)",
+					"placeholder": "literature-template.md"
+				}
+			},
+			"permanent": {
+				"heading": "Permanent Note Settings",
+				"folder": {
+					"name": "Folder",
+					"desc": "Folder for permanent notes",
+					"placeholder": "30-Permanent"
+				},
+				"fileNameFormat": {
+					"name": "File name format",
+					"desc": "File name format with placeholders: {{date}}, {{zettel-id}}, {{title}}, {{alias}}",
+					"placeholder": "{{zettel-id}}-{{title}}"
+				},
+				"showAliasInput": {
+					"name": "Show alias input",
+					"desc": "Show alias input field when creating note"
+				},
+				"templatePath": {
+					"name": "Template file",
+					"desc": "Template file name (relative to templates folder)",
+					"placeholder": "permanent-template.md"
+				}
 			}
 		},
 		"behavior": {
