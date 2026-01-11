@@ -1,7 +1,5 @@
-import { ItemView, WorkspaceLeaf, TFile, Notice } from "obsidian";
+import { ItemView, WorkspaceLeaf, TFile } from "obsidian";
 import { OrphanDetectorService } from "../../services/orphan-detector-service";
-import { StructureSuggestModal } from "../modals/structure-suggest-modal";
-import { ConnectionManager } from "../../core/connection-manager";
 import type { PageZettelSettings } from "../../types/settings";
 import type { OrphanStats } from "../../types";
 import { t } from "../../i18n";
@@ -10,7 +8,6 @@ export const VIEW_TYPE_ORPHAN = "orphan-permanent-view";
 
 export class OrphanView extends ItemView {
 	private orphanDetectorService: OrphanDetectorService;
-	private connectionManager: ConnectionManager;
 	private orphanNotes: TFile[] = [];
 	private orphanStats: OrphanStats | null = null;
 	private settings: PageZettelSettings;
@@ -19,7 +16,6 @@ export class OrphanView extends ItemView {
 		super(leaf);
 		this.settings = settings;
 		this.orphanDetectorService = new OrphanDetectorService(this.app);
-		this.connectionManager = new ConnectionManager(this.app);
 	}
 
 	getViewType(): string {
@@ -49,29 +45,6 @@ export class OrphanView extends ItemView {
 		this.orphanNotes = await this.orphanDetectorService.getOrphanPermanentNotes();
 		this.orphanStats = await this.orphanDetectorService.getStats();
 		this.renderView();
-	}
-
-	/**
-	 * ノートをStructure Noteに接続
-	 */
-	private connectNote(note: TFile): void {
-		const modal = new StructureSuggestModal(
-			this.app,
-			this.settings,
-			note,
-			(structureFile: TFile | null) => {
-				void (async () => {
-					if (structureFile) {
-						await this.connectionManager.linkPermanentToStructure(note, structureFile);
-						new Notice(t("notices.linkSuccess", { name: structureFile.basename }));
-						// ビューを自動更新（接続されたノートはリストから削除される）
-						await this.refresh();
-					}
-				})();
-			},
-		);
-
-		modal.open();
 	}
 
 	/**
@@ -130,16 +103,6 @@ export class OrphanView extends ItemView {
 				link.addEventListener("click", (e) => {
 					e.preventDefault();
 					void this.app.workspace.getLeaf(false).openFile(note);
-				});
-
-				// 接続ボタン
-				const connectButton = item.createEl("button", {
-					text: t("views.orphan.connectButton"),
-					cls: "orphan-view-connect-button",
-				});
-
-				connectButton.addEventListener("click", () => {
-					this.connectNote(note);
 				});
 			}
 		}
