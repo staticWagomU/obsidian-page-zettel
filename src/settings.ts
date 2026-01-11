@@ -157,6 +157,58 @@ export class PageZettelSettingTab extends PluginSettingTab {
 					}),
 			);
 
+		// Permanent設定セクション
+		new Setting(containerEl).setName(t("settings.noteTypes.permanent.heading")).setHeading();
+
+		new Setting(containerEl)
+			.setName(t("settings.noteTypes.permanent.folder.name"))
+			.setDesc(t("settings.noteTypes.permanent.folder.desc"))
+			.addText((text) => {
+				text.setPlaceholder(t("settings.noteTypes.permanent.folder.placeholder"))
+					.setValue(this.plugin.settings.permanent.folder)
+					.onChange(async (value) => {
+						this.plugin.settings.permanent.folder = value;
+						await this.plugin.saveSettings();
+					});
+				new FolderSuggest(this.app, text.inputEl);
+			});
+
+		new Setting(containerEl)
+			.setName(t("settings.noteTypes.permanent.fileNameFormat.name"))
+			.setDesc(t("settings.noteTypes.permanent.fileNameFormat.desc"))
+			.addText((text) =>
+				text
+					.setPlaceholder(t("settings.noteTypes.permanent.fileNameFormat.placeholder"))
+					.setValue(this.plugin.settings.permanent.fileNameFormat)
+					.onChange(async (value) => {
+						this.plugin.settings.permanent.fileNameFormat = value;
+						await this.plugin.saveSettings();
+					}),
+			);
+
+		new Setting(containerEl)
+			.setName(t("settings.noteTypes.permanent.showAliasInput.name"))
+			.setDesc(t("settings.noteTypes.permanent.showAliasInput.desc"))
+			.addToggle((toggle) =>
+				toggle.setValue(this.plugin.settings.permanent.showAliasInput).onChange(async (value) => {
+					this.plugin.settings.permanent.showAliasInput = value;
+					await this.plugin.saveSettings();
+				}),
+			);
+
+		new Setting(containerEl)
+			.setName(t("settings.noteTypes.permanent.templatePath.name"))
+			.setDesc(t("settings.noteTypes.permanent.templatePath.desc"))
+			.addText((text) =>
+				text
+					.setPlaceholder(t("settings.noteTypes.permanent.templatePath.placeholder"))
+					.setValue(this.plugin.settings.permanent.templatePath)
+					.onChange(async (value) => {
+						this.plugin.settings.permanent.templatePath = value;
+						await this.plugin.saveSettings();
+					}),
+			);
+
 		// 共通フォルダ設定セクション
 		new Setting(containerEl).setName(t("settings.folders.heading")).setHeading();
 
