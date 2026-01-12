@@ -30,7 +30,7 @@ const scrum: ScrumDashboard = {
     { id: "PBI-016", story: { role: "Obsidianユーザー", capability: "3ノートタイプ化", benefit: "シンプル化" }, acceptance_criteria: [{ criterion: "Structure/Index削除", verification: "grep+build" }], status: "done" },
     // Phase: 新設計リファクタリング (DESIGN.md準拠)
     { id: "PBI-017", story: { role: "Obsidianユーザー", capability: "設定画面で各ノートタイプのフォルダ・ファイル名形式・テンプレートを設定できる", benefit: "自分のワークフローに合わせたZettelkasten環境を構築できる" }, acceptance_criteria: [{ criterion: "NoteTypeSettings型定義(fileNameFormat/showAliasInput/templatePath/folder)", verification: "types/settings.ts" }, { criterion: "PageZettelSettings拡張+DEFAULT_SETTINGS", verification: "settings.ts" }, { criterion: "3ノートタイプ×設定UI(各4項目)", verification: "設定画面表示" }, { criterion: "設定永続化", verification: "data.json保存確認" }], status: "done" },
-    { id: "PBI-018", story: { role: "Obsidianユーザー", capability: "NoteTypeSelectModalとAliasInputModalでノート作成フローを統一できる", benefit: "一貫したUI体験" }, acceptance_criteria: [{ criterion: "NoteTypeSelectModal 3種類", verification: "モーダル確認" }, { criterion: "AliasInputModal+インデント削除", verification: "DESIGN.md通り" }, { criterion: "設定連動", verification: "表示制御確認" }], status: "draft" },
+    { id: "PBI-018", story: { role: "Obsidianユーザー", capability: "NoteTypeSelectModalとAliasInputModalでノート作成フローを統一できる", benefit: "一貫したUI体験" }, acceptance_criteria: [{ criterion: "NoteTypeModal拡張: FuzzySuggestModal継承+3ノートタイプ表示(icon/label/description)+選択コールバック", verification: "既存note-type-modal.ts動作確認" }, { criterion: "AliasInputModal新規作成: Modal継承+テキスト入力+Enterキー対応+チェックボックス(Extract時のみ表示)+作成/キャンセルボタン", verification: "QuickCaptureModalパターン適用+DESIGN.md L65-77準拠" }, { criterion: "設定連動: showAliasInput=falseの場合AliasInputModalスキップ+ファイル名をデフォルトエイリアスとして使用", verification: "各ノートタイプ設定(fleeting/literature/permanent)のshowAliasInputフラグで表示制御" }, { criterion: "i18n対応: modals.aliasInput配下に翻訳キー追加(title/inputName/inputDesc/inputPlaceholder/removeIndent/createButton/cancelButton)", verification: "ja.json+en.json追加" }], status: "ready" },
     { id: "PBI-019", story: { role: "Obsidianユーザー", capability: "TemplateServiceでプレースホルダーを展開", benefit: "一貫したフォーマット" }, acceptance_criteria: [{ criterion: "{{content}}", verification: "Extract/Create" }, { criterion: "{{date}}{{time}}{{datetime}}", verification: "日時展開" }, { criterion: "{{title}}{{alias}}", verification: "タイトル展開" }, { criterion: "フォールバック", verification: "空テンプレート" }], status: "draft" },
     { id: "PBI-020", story: { role: "Obsidianユーザー", capability: "NoteCreatorServiceでノート作成統一", benefit: "コード重複防止" }, acceptance_criteria: [{ criterion: "createNote(type,content,alias)", verification: "サービス実装" }, { criterion: "ファイル名形式", verification: "設定連動" }, { criterion: "フォルダ配置", verification: "設定連動" }, { criterion: "TemplateService統合", verification: "テンプレート適用" }], status: "draft" },
     { id: "PBI-021", story: { role: "Obsidianユーザー", capability: "Create New Noteコマンド", benefit: "素早く記録開始" }, acceptance_criteria: [{ criterion: "コマンド登録", verification: "パレット表示" }, { criterion: "Modal→作成→オープン", verification: "E2E" }, { criterion: "NoteCreatorService統合", verification: "サービス経由" }], status: "draft" },
@@ -39,7 +39,54 @@ const scrum: ScrumDashboard = {
     { id: "PBI-024", story: { role: "Obsidianユーザー", capability: "コンテキストメニューExtract", benefit: "右クリックアクセス" }, acceptance_criteria: [{ criterion: "メニュー表示", verification: "選択時のみ" }, { criterion: "コマンド実行", verification: "E2E" }, { criterion: "ON/OFF設定", verification: "設定連動" }], status: "draft" },
   ],
 
-  sprint: null,
+  sprint: {
+    number: 18,
+    pbi_id: "PBI-018",
+    goal: "ノート作成フローの統一UI実装",
+    status: "planning",
+    subtasks: [
+      {
+        test: "modals.aliasInput配下に7翻訳キー追加(title/inputName/inputDesc/inputPlaceholder/removeIndent/createButton/cancelButton)",
+        implementation: "i18n/locales/ja.json,i18n/locales/en.json",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: ["AC4: i18n対応", "依存: なし（最初に実装）", "検証: ja.json+en.json追加確認"],
+      },
+      {
+        test: "AliasInputModal: Modal継承+テキスト入力+Enterキー対応+作成/キャンセルボタン",
+        implementation: "ui/modals/alias-input-modal.ts",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: ["AC2: AliasInputModal新規作成", "パターン: QuickCaptureModal参考", "検証: QuickCaptureModalパターン適用確認"],
+      },
+      {
+        test: "AliasInputModal: チェックボックス追加(Extract時のみ表示)+removeIndent状態管理",
+        implementation: "ui/modals/alias-input-modal.ts",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: ["AC2: Extract時のみチェックボックス表示", "依存: 前サブタスク完了後", "検証: DESIGN.md L65-77準拠確認"],
+      },
+      {
+        test: "NoteTypeModal: 3ノートタイプ表示(icon/label/description)+選択コールバック動作確認",
+        implementation: "ui/modals/note-type-modal.ts",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: ["AC1: NoteTypeModal拡張", "依存: 既存実装確認済み", "検証: 既存note-type-modal.ts動作確認（FuzzySuggestModal継承済み）"],
+      },
+      {
+        test: "設定連動: showAliasInput=falseの場合AliasInputModalスキップ+ファイル名をデフォルトエイリアスとして使用",
+        implementation: "各ノート作成コマンド（extract/create）",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: ["AC3: 設定連動", "依存: AliasInputModal実装完了後", "検証: 各ノートタイプ設定(fleeting/literature/permanent)のshowAliasInputフラグで表示制御確認"],
+      },
+    ],
+  },
 
   definition_of_done: { checks: [{ name: "Build passes", run: "pnpm build" }, { name: "Lint passes", run: "pnpm lint" }, { name: "Format check passes", run: "pnpm format:check" }] },
 
