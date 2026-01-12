@@ -92,6 +92,16 @@ export default class PageZettelPlugin extends Plugin {
 			},
 		});
 
+		this.addCommand({
+			id: "create-new-note",
+			name: this.settings.ui.showEmojiInCommands
+				? `📄 ${t("commands.createNewNote")}`
+				: t("commands.createNewNote"),
+			callback: () => {
+				// TODO: NoteTypeModal表示統合（Subtask 4）
+			},
+		});
+
 		// Register editor context menu
 		this.registerEvent(
 			this.app.workspace.on("editor-menu", (menu, editor, _info) => {
