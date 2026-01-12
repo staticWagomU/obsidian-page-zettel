@@ -30,4 +30,48 @@ export class NoteCreatorService {
 		this.templateService = templateService;
 		this.frontmatterService = frontmatterService;
 	}
+
+	/**
+	 * ファイル名を生成
+	 * settings[type].fileNameFormatのプレースホルダーを展開
+	 * - {{date}} -> YYYY-MM-DD
+	 * - {{time}} -> HH:mm:ss
+	 * - {{datetime}} -> YYYY-MM-DD HH:mm:ss
+	 * - {{zettel-id}} -> YYYYMMDDHHmmss
+	 * - {{title}} -> sanitized title
+	 * - {{alias}} -> alias || title
+	 */
+	private generateFileName(type: NoteType, title: string, alias?: string): string {
+		const format = this.settings[type].fileNameFormat;
+
+		// タイトルのサニタイズ
+		const sanitizedTitle = title.replace(/[\\/:*?"<>|]/g, "-").trim();
+
+		// プレースホルダーの展開
+		let fileName = format;
+
+		// {{date}} -> YYYY-MM-DD
+		fileName = fileName.replace(/\{\{date\}\}/g, moment().format("YYYY-MM-DD"));
+
+		// {{time}} -> HH:mm:ss
+		fileName = fileName.replace(/\{\{time\}\}/g, moment().format("HH:mm:ss"));
+
+		// {{datetime}} -> YYYY-MM-DD HH:mm:ss
+		fileName = fileName.replace(
+			/\{\{datetime\}\}/g,
+			moment().format("YYYY-MM-DD HH:mm:ss"),
+		);
+
+		// {{zettel-id}} -> YYYYMMDDHHmmss (ISO形式から変換)
+		fileName = fileName.replace(/\{\{zettel-id\}\}/g, moment().format("YYYYMMDDHHmmss"));
+
+		// {{title}} -> sanitized title
+		fileName = fileName.replace(/\{\{title\}\}/g, sanitizedTitle);
+
+		// {{alias}} -> alias || title
+		fileName = fileName.replace(/\{\{alias\}\}/g, alias || sanitizedTitle);
+
+		// .md拡張子を追加
+		return `${fileName}.md`;
+	}
 }
