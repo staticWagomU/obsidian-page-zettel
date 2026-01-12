@@ -82,33 +82,32 @@ async function createNoteFromSelection(
 		content = removeCommonIndent(selection);
 	}
 
-	// 4. タイトルを生成（エイリアスがあればそれを使用、なければ最初の行）
-	let title: string;
-	if (alias && alias.trim() !== "") {
-		title = alias;
-	} else {
-		const firstLine = (content.split("\n")[0] || content).trim();
-		title = firstLine.length > 40 ? firstLine.slice(0, 40) + "..." : firstLine;
-	}
-
-	// 5. ノートを作成
+	// 4. 元ノートを取得
 	const sourceFile = plugin.app.workspace.getActiveFile();
 
-	const newFile = await plugin.noteManager.createNote({
-		title,
+	// 5. NoteCreatorServiceでノートを作成
+	const newFile = await plugin.noteCreatorService.createNote(
 		type,
 		content,
-		sourceFile: sourceFile || undefined,
-	});
+		alias,
+		sourceFile || undefined,
+	);
 
 	// 6. 元ノートにリンクを挿入（設定で有効な場合）
 	if (plugin.settings.behavior.insertLinkAfterExtract) {
-		const link = `[[${newFile.basename}]]`;
+		// マークダウンリンク形式: [表示名](相対パス)
+		const linkText = alias || newFile.basename;
+		const relativePath = sourceFile
+			? plugin.app.metadataCache.fileToLinktext(newFile, sourceFile.path)
+			: newFile.path;
+		const link = `[${linkText}](${relativePath})`;
 		editor.replaceSelection(link);
 	}
 
-	// 7. 新規ノートを開く
-	await plugin.app.workspace.openLinkText(newFile.path, "");
+	// 7. 新規ノートを開く（設定で有効な場合）
+	if (plugin.settings.behavior.openAfterExtract) {
+		await plugin.app.workspace.openLinkText(newFile.path, "");
+	}
 }
 
 /**
