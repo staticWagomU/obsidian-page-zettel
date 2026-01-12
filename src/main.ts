@@ -4,6 +4,9 @@ import type { PageZettelSettings } from "./types/settings";
 import { NoteManager } from "./core/note-manager";
 import { PromotionService } from "./services/promotion-service";
 import { FolderService } from "./services/folder-service";
+import { TemplateService } from "./services/template-service";
+import { FrontmatterService } from "./services/frontmatter-service";
+import { NoteCreatorService } from "./services/note-creator-service";
 import { extractSelection } from "./commands/extract-selection-command";
 import { promoteNote } from "./commands/promote-note-command";
 import { OrphanView, VIEW_TYPE_ORPHAN } from "./ui/views/orphan-view";
@@ -14,6 +17,7 @@ export default class PageZettelPlugin extends Plugin {
 	settings: PageZettelSettings;
 	noteManager: NoteManager;
 	promotionService: PromotionService;
+	noteCreatorService: NoteCreatorService;
 
 	async onload() {
 		await this.loadSettings();
@@ -25,6 +29,17 @@ export default class PageZettelPlugin extends Plugin {
 		// Initialize services
 		this.noteManager = new NoteManager(this.app, this.settings);
 		this.promotionService = new PromotionService(this.app, this.settings);
+
+		// Initialize NoteCreatorService
+		const templateService = new TemplateService(this.app, this.settings);
+		const frontmatterService = new FrontmatterService(this.app);
+		this.noteCreatorService = new NoteCreatorService(
+			this.app,
+			this.settings,
+			folderService,
+			templateService,
+			frontmatterService,
+		);
 
 		// Register views
 		this.registerView(VIEW_TYPE_ORPHAN, (leaf) => new OrphanView(leaf, this.settings));
