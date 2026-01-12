@@ -35,50 +35,11 @@ const scrum: ScrumDashboard = {
     { id: "PBI-020", story: { role: "Obsidianユーザー", capability: "NoteCreatorServiceでノート作成統一", benefit: "コード重複防止" }, acceptance_criteria: [{ criterion: "NoteCreatorService実装: createNote(type,content,alias)メソッド+constructor(app,settings,folderService,templateService,frontmatterService)", verification: "services/note-creator-service.ts作成" }, { criterion: "ファイル名形式展開: settings[type].fileNameFormatをプレースホルダー展開({{date}}/{{time}}/{{datetime}}/{{zettel-id}}/{{title}})", verification: "generateFileName()メソッド実装" }, { criterion: "フォルダ配置: settings[type].folderから取得+folderService.ensureFolderExistsByPath()でフォルダ作成", verification: "NoteManager.createNote()のfolderService統合パターン踏襲" }, { criterion: "テンプレート統合: settings[type].templatePathから取得+templateService.getProcessedTemplate()でプレースホルダー展開(content/alias/title/date/time/datetime)", verification: "TemplateVariables{content,alias,title}を渡す" }, { criterion: "フロントマター統合: frontmatterService.addFrontmatter()でメタデータ追加", verification: "NoteManager.createNote()パターン踏襲" }, { criterion: "ファイル作成+Notice通知: app.vault.create()+new Notice()", verification: "NoteManager.createNote()パターン踏襲" }], status: "done" },
     { id: "PBI-021", story: { role: "Obsidianユーザー", capability: "Create New Noteコマンド", benefit: "素早く記録開始" }, acceptance_criteria: [{ criterion: "i18n翻訳キー追加: commands.createNewNote配下に日英翻訳キーを追加", verification: "i18n/locales/ja.json+en.json" }, { criterion: "コマンド登録: addCommand({id:\"create-new-note\",name:絵文字設定連動,callback})", verification: "main.ts+t(\"commands.createNewNote\")+settings.ui.showEmojiInCommands" }, { criterion: "NoteTypeModal表示: NoteTypeModal(app,onSelect,[\"fleeting\",\"literature\",\"permanent\"])", verification: "extract-selection-commandパターン踏襲" }, { criterion: "AliasInputModal表示: settings[type].showAliasInput=trueの場合のみ表示+showRemoveIndent=false", verification: "removeIndentチェックボックス非表示" }, { criterion: "NoteCreatorService統合: noteCreatorService.createNote(type,\"\",alias)+作成後openLinkText()でノートを開く", verification: "content=\"\"でテンプレートのみ展開+DESIGN.md L46準拠" }, { criterion: "main.tsにNoteCreatorService初期化: constructor(app,settings,folderService,templateService,frontmatterService)", verification: "既存サービス注入パターン踏襲" }], status: "done" },
     { id: "PBI-022", story: { role: "Obsidianユーザー", capability: "Extract to Note", benefit: "アトミックノート抽出" }, acceptance_criteria: [{ criterion: "NoteCreatorService統合: extract-selection-command.tsでnoteCreatorService.createNote(type,content,alias)を使用", verification: "NoteManager.createNote()からNoteCreatorService.createNote()に置換" }, { criterion: "マークダウンリンク置換: [[basename]]形式を[alias](relativePath)形式に変更", verification: "DESIGN.md L262-271準拠+エイリアスありは[alias](path)、なしは[filename](path)" }, { criterion: "Extract後のノートオープン設定: settings.behavior.openAfterExtract=trueの場合のみopenLinkText()実行", verification: "BehaviorSettings.openAfterExtract追加+条件分岐" }, { criterion: "インデント削除機能維持: 既存のremoveCommonIndent()とAliasInputModal.removeIndent統合確認", verification: "extract-selection-command.ts L117-134+AliasInputModal L65-73動作確認" }, { criterion: "i18n翻訳キー更新: commands.extractSelection → commands.extractToNote", verification: "ja.json+en.json+main.ts L58-64のコマンド名更新" }], status: "done" },
-    { id: "PBI-023", story: { role: "Obsidianユーザー", capability: "孤立Permanent検出(リンクベース)", benefit: "ネットワーク統合" }, acceptance_criteria: [{ criterion: "getOrphanPermanentNotes()リファクタリング: structure_notesフロントマター検出を削除+metadataCache.getFileCache(file)?.links配列から他Permanentノートへのマークダウンリンク被参照をチェック+被参照0件=孤立", verification: "orphan-detector-service.ts L18-38" }, { criterion: "getStats()保持: 統計情報取得メソッドは既存実装を維持（total/orphans/connected/connectionRate計算ロジック変更なし）", verification: "orphan-detector-service.ts L44-73" }, { criterion: "OrphanView維持: クリックでノート遷移機能を維持+統計情報表示を維持+リフレッシュボタンを維持", verification: "orphan-view.ts L87-108" }, { criterion: "i18n翻訳キー維持: views.orphan配下の既存翻訳キー（title/stats/refreshButton/emptyMessage）を変更なし", verification: "i18n/locales/ja.json L148-154" }], status: "done" },
+    { id: "PBI-023", story: { role: "Obsidianユーザー", capability: "孤立Permanent検出(リンクベース)", benefit: "ネットワーク統合" }, acceptance_criteria: [{ criterion: "getOrphanPermanentNotes()リファクタリング: structure_notesフロントマター検出を削除+metadataCache.getFileCache(file)?.links配列から他Permanentノートへのマークダウンリンク被参照をチェック+被参照0件=孤立", verification: "orphan-detector-service.ts L18-62" }, { criterion: "getStats()保持: 統計情報取得メソッドは既存実装を維持（total/orphans/connected/connectionRate計算ロジック変更なし）", verification: "orphan-detector-service.ts L68-97" }, { criterion: "OrphanView維持: クリックでノート遷移機能を維持+統計情報表示を維持+リフレッシュボタンを維持", verification: "orphan-view.ts L103-106 (click), L66-76 (stats), L78-84 (refresh)" }, { criterion: "i18n翻訳キー維持: views.orphan配下の既存翻訳キー（title/stats/refreshButton/emptyMessage）を変更なし", verification: "i18n/locales/ja.json L148-154" }], status: "done" },
     { id: "PBI-024", story: { role: "Obsidianユーザー", capability: "コンテキストメニューExtract", benefit: "右クリックアクセス" }, acceptance_criteria: [{ criterion: "メニュー表示", verification: "選択時のみ" }, { criterion: "コマンド実行", verification: "E2E" }, { criterion: "ON/OFF設定", verification: "設定連動" }], status: "draft" },
   ],
 
-  sprint: {
-    number: 23,
-    pbi_id: "PBI-023",
-    goal: "孤立Permanent検出のリンクベース実装",
-    status: "done",
-    subtasks: [
-      {
-        test: "getOrphanPermanentNotes()リファクタリング: structure_notesフロントマター検出を削除+metadataCache.getFileCache(file)でマークダウンリンク被参照をチェック+被参照0件=孤立",
-        implementation: "services/orphan-detector-service.ts",
-        type: "behavioral",
-        status: "completed",
-        commits: [{ hash: "06a508e", message: "refactor(orphan): switch to link-based detection", phase: "green" }],
-        notes: ["AC1対応", "permanent typeのノートを取得", "全markdownファイルのmetadataCache.getFileCache()からlinks配列を取得", "各linkのlinkTextがpermanentノートのbasenameと一致するか確認", "一致する被参照が0件のノートを孤立と判定"],
-      },
-      {
-        test: "getStats()保持検証: 統計情報取得メソッド（total/orphans/connected/connectionRate計算）の既存実装維持確認",
-        implementation: "services/orphan-detector-service.ts",
-        type: "behavioral",
-        status: "completed",
-        commits: [],
-        notes: ["AC2対応", "L68-97のコード確認", "getOrphanPermanentNotes()のインターフェース維持により変更不要", "total/orphans/connected/connectionRate計算ロジック維持"],
-      },
-      {
-        test: "OrphanView維持検証: クリックでノート遷移+統計表示+リフレッシュボタンの既存実装維持確認",
-        implementation: "ui/views/orphan-view.ts",
-        type: "behavioral",
-        status: "completed",
-        commits: [],
-        notes: ["AC3対応", "L103-106: クリックでノート遷移機能維持", "L66-76: 統計表示機能維持", "L78-84: リフレッシュボタン機能維持", "OrphanDetectorServiceインターフェース依存により変更不要"],
-      },
-      {
-        test: "i18n翻訳キー維持検証: views.orphan配下の既存翻訳キー（title/stats/refreshButton/emptyMessage）を変更なし",
-        implementation: "src/i18n/locales/ja.json, src/i18n/locales/en.json",
-        type: "behavioral",
-        status: "completed",
-        commits: [],
-        notes: ["AC4対応", "ja.json L148-154: title/stats/refreshButton/emptyMessage維持確認", "en.json L148-154: title/stats/refreshButton/emptyMessage維持確認", "変更不要"],
-      },
-    ],
-  },
+  sprint: null,
 
   definition_of_done: { checks: [{ name: "Build passes", run: "pnpm build" }, { name: "Lint passes", run: "pnpm lint" }, { name: "Format check passes", run: "pnpm format:check" }] },
 
@@ -134,6 +95,8 @@ const scrum: ScrumDashboard = {
     { sprint: 23, improvements: [{ action: "リンクベース孤立検出への設計変更", timing: "sprint", status: "completed", outcome: "structure_notesフロントマターベースからmetadataCache.linksベースに変更。マークダウンリンク被参照チェックにより、より正確な孤立ノート検出を実現" }, { action: "インターフェース保持によるUI層への影響最小化", timing: "sprint", status: "completed", outcome: "OrphanDetectorServiceのgetOrphanPermanentNotes()とgetStats()のインターフェースを維持。OrphanViewとi18n翻訳キーへの変更不要を実現" }, { action: "検証専用サブタスクによる既存機能保持確認パターン", timing: "sprint", status: "completed", outcome: "getStats()保持検証/OrphanView維持検証/i18n翻訳キー維持検証の3サブタスクで既存機能を体系的に検証。リファクタリング時の影響範囲を明確化" }] },
   ],
 };
+
+export default scrum;
 
 // ============================================================
 // Type Definitions (DO NOT MODIFY)
