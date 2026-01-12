@@ -56,8 +56,8 @@ export default class PageZettelPlugin extends Plugin {
 		this.addCommand({
 			id: "extract-selection",
 			name: this.settings.ui.showEmojiInCommands
-				? `📝 ${t("commands.extractSelection")}`
-				: t("commands.extractSelection"),
+				? `📝 ${t("commands.extractToNote")}`
+				: t("commands.extractToNote"),
 			editorCallback: (editor: Editor, view: MarkdownView) => {
 				void extractSelection(this, editor, view);
 			},
@@ -144,8 +144,8 @@ export default class PageZettelPlugin extends Plugin {
 							.setSection("page-zettel")
 							.setTitle(
 								this.settings.ui.showEmojiInCommands
-									? `📝 ${t("commands.extractSelection")}`
-									: t("commands.extractSelection"),
+									? `📝 ${t("commands.extractToNote")}`
+									: t("commands.extractToNote"),
 							)
 							.setIcon("file-plus")
 							.onClick(() => {
