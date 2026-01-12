@@ -73,6 +73,9 @@ export class TemplateService {
 		// {{content}} の展開
 		result = result.replace(/\{\{content\}\}/g, variables.content || "");
 
+		// {{alias}} の展開
+		result = result.replace(/\{\{alias\}\}/g, variables.alias || "");
+
 		// {{date:FORMAT}} の展開（カスタムフォーマット）
 		result = result.replace(/\{\{date:([^}]+)\}\}/g, (match: string, format: string) => {
 			try {
