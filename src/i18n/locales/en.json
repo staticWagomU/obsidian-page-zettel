@@ -1,6 +1,6 @@
 {
 	"commands": {
-		"extractSelection": "Extract selection to new note",
+		"extractToNote": "Extract to note",
 		"promoteNote": "Promote note",
 		"quickFleeting": "Quick fleeting note",
 		"createNewNote": "Create new note"
@@ -92,6 +92,10 @@
 			"insertLinkAfterExtract": {
 				"name": "Insert link after extraction",
 				"desc": "Insert a link to the new note in the original note after extraction"
+			},
+			"openAfterExtract": {
+				"name": "Open note after extraction",
+				"desc": "Automatically open the new note after extraction"
 			},
 			"moveOnPromotion": {
 				"name": "Move folder on promotion",

@@ -1,6 +1,6 @@
 {
 	"commands": {
-		"extractSelection": "選択範囲から新規ノート",
+		"extractToNote": "ノートに切り出す",
 		"promoteNote": "ノートを昇格",
 		"quickFleeting": "Quick fleeting note",
 		"createNewNote": "新規ノートを作成"
@@ -92,6 +92,10 @@
 			"insertLinkAfterExtract": {
 				"name": "切り出し後にリンクを挿入",
 				"desc": "選択範囲から新規ノート作成後、元ノートに新規ノートへのリンクを挿入します"
+			},
+			"openAfterExtract": {
+				"name": "切り出し後にノートを開く",
+				"desc": "選択範囲から新規ノート作成後、新規ノートを自動的に開きます"
 			},
 			"moveOnPromotion": {
 				"name": "昇格時にフォルダ移動",

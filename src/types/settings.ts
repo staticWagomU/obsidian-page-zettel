@@ -38,6 +38,8 @@ export interface FolderSettings {
 export interface BehaviorSettings {
 	/** 切り出し後に元ノートにリンクを挿入 */
 	insertLinkAfterExtract: boolean;
+	/** 切り出し後に新規ノートを開く */
+	openAfterExtract: boolean;
 	/** 昇格時に自動でフォルダ移動 */
 	moveOnPromotion: boolean;
 	/** ファイル名のプレフィックス形式 */

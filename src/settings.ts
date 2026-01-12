@@ -30,6 +30,7 @@ export const DEFAULT_SETTINGS: PageZettelSettings = {
 	},
 	behavior: {
 		insertLinkAfterExtract: true,
+		openAfterExtract: true,
 		moveOnPromotion: true,
 		fileNamePrefix: "date",
 	},
@@ -255,6 +256,18 @@ export class PageZettelSettingTab extends PluginSettingTab {
 					.setValue(this.plugin.settings.behavior.insertLinkAfterExtract)
 					.onChange(async (value) => {
 						this.plugin.settings.behavior.insertLinkAfterExtract = value;
+						await this.plugin.saveSettings();
+					}),
+			);
+
+		new Setting(containerEl)
+			.setName(t("settings.behavior.openAfterExtract.name"))
+			.setDesc(t("settings.behavior.openAfterExtract.desc"))
+			.addToggle((toggle) =>
+				toggle
+					.setValue(this.plugin.settings.behavior.openAfterExtract)
+					.onChange(async (value) => {
+						this.plugin.settings.behavior.openAfterExtract = value;
 						await this.plugin.saveSettings();
 					}),
 			);
