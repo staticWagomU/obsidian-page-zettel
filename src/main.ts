@@ -12,6 +12,7 @@ import { promoteNote } from "./commands/promote-note-command";
 import { OrphanView, VIEW_TYPE_ORPHAN } from "./ui/views/orphan-view";
 import { QuickCaptureModal } from "./ui/modals/quick-capture-modal";
 import { NoteTypeModal } from "./ui/modals/note-type-modal";
+import { AliasInputModal } from "./ui/modals/alias-input-modal";
 import { NoteType } from "./types/note-types";
 import { t } from "./i18n";
 
@@ -103,7 +104,25 @@ export default class PageZettelPlugin extends Plugin {
 				const modal = new NoteTypeModal(
 					this.app,
 					(type: NoteType) => {
-						// TODO: AliasInputModal条件表示（Subtask 5）
+						// 設定確認: showAliasInputフラグ
+						const showAliasInput = this.settings[type].showAliasInput;
+
+						if (!showAliasInput) {
+							// showAliasInput=falseの場合、AliasInputModalをスキップしてノート作成
+							void this.createNoteAndOpen(type, "");
+							return;
+						}
+
+						// showAliasInput=trueの場合、AliasInputModalを表示
+						const aliasModal = new AliasInputModal(
+							this.app,
+							this,
+							(result) => {
+								void this.createNoteAndOpen(type, result.alias);
+							},
+							false, // showRemoveIndent=false（Create時なのでインデント削除チェックボックス非表示）
+						);
+						aliasModal.open();
 					},
 					["fleeting", "literature", "permanent"],
 				);
@@ -208,6 +227,17 @@ export default class PageZettelPlugin extends Plugin {
 		if (leaf) {
 			void workspace.revealLeaf(leaf);
 		}
+	}
+
+	/**
+	 * ノートを作成して開く
+	 */
+	async createNoteAndOpen(type: NoteType, alias: string): Promise<void> {
+		// NoteCreatorServiceでノート作成
+		const file = await this.noteCreatorService.createNote(type, "", alias);
+
+		// 新規ノートを開く
+		await this.app.workspace.openLinkText(file.path, "");
 	}
 
 	async loadSettings() {
