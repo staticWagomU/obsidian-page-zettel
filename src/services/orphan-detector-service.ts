@@ -13,24 +13,48 @@ export class OrphanDetectorService {
 
 	/**
 	 * 孤立したPermanent Noteを取得
-	 * structure_notesが空または未定義のpermanent typeのノートを返す
+	 * 他のPermanentノートからマークダウンリンクで参照されていないノートを返す
 	 */
 	async getOrphanPermanentNotes(): Promise<TFile[]> {
 		const allFiles = this.app.vault.getMarkdownFiles();
 		const orphans: TFile[] = [];
 
+		// 全Permanentノートを取得
+		const permanentNotes: TFile[] = [];
 		for (const file of allFiles) {
 			const noteType = await this.frontmatterService.getNoteType(file);
-			if (noteType !== "permanent") {
-				continue;
+			if (noteType === "permanent") {
+				permanentNotes.push(file);
+			}
+		}
+
+		// 各Permanentノートが他のノートから参照されているかチェック
+		for (const permanentNote of permanentNotes) {
+			let isReferenced = false;
+
+			// 全マークダウンファイルのリンクをチェック
+			for (const file of allFiles) {
+				const cache = this.app.metadataCache.getFileCache(file);
+				const links = cache?.links;
+
+				if (links && links.length > 0) {
+					// リンクのlinkTextがPermanentノートのbasenameと一致するか確認
+					for (const link of links) {
+						if (link.link === permanentNote.basename) {
+							isReferenced = true;
+							break;
+						}
+					}
+				}
+
+				if (isReferenced) {
+					break;
+				}
 			}
 
-			// structure_notesの存在チェック
-			const cache = this.app.metadataCache.getFileCache(file);
-			const structureNotes = cache?.frontmatter?.structure_notes as string[] | undefined;
-
-			if (!structureNotes || structureNotes.length === 0) {
-				orphans.push(file);
+			// 一度も参照されていない場合は孤立
+			if (!isReferenced) {
+				orphans.push(permanentNote);
 			}
 		}
 
