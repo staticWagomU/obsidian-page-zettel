@@ -43,6 +43,10 @@
 					"name": "Template file",
 					"desc": "Template file name (relative to templates folder)",
 					"placeholder": "fleeting-template.md"
+				},
+				"defaultFrontmatter": {
+					"name": "Default frontmatter",
+					"desc": "Merged with template frontmatter. The type field always uses this value."
 				}
 			},
 			"literature": {
@@ -65,6 +69,10 @@
 					"name": "Template file",
 					"desc": "Template file name (relative to templates folder)",
 					"placeholder": "literature-template.md"
+				},
+				"defaultFrontmatter": {
+					"name": "Default frontmatter",
+					"desc": "Merged with template frontmatter. The type field always uses this value."
 				}
 			},
 			"permanent": {
@@ -87,6 +95,10 @@
 					"name": "Template file",
 					"desc": "Template file name (relative to templates folder)",
 					"placeholder": "permanent-template.md"
+				},
+				"defaultFrontmatter": {
+					"name": "Default frontmatter",
+					"desc": "Merged with template frontmatter. The type field always uses this value."
 				}
 			}
 		},

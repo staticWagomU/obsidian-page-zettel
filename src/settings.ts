@@ -1,26 +1,27 @@
 import { App, PluginSettingTab, Setting } from "obsidian";
 import PageZettelPlugin from "./main";
 import type { PageZettelSettings } from "./types/settings";
-import { NOTE_TYPE_CONFIG } from "./types/note-types";
+import type { NoteType } from "./types/note-types";
 import { FolderSuggest } from "./ui/suggesters/folder-suggest";
 import { FileSuggest } from "./ui/suggesters/file-suggest";
+import { getDefaultFrontmatterPreview } from "./utils/frontmatter-parser";
 import { t } from "./i18n";
 
 export const DEFAULT_SETTINGS: PageZettelSettings = {
 	fleeting: {
-		folder: NOTE_TYPE_CONFIG.fleeting.folder,
+		folder: "",
 		fileNameFormat: "{{date}}-{{title}}",
 		showAliasInput: false,
 		templatePath: "",
 	},
 	literature: {
-		folder: NOTE_TYPE_CONFIG.literature.folder,
+		folder: "",
 		fileNameFormat: "{{date}}-{{title}}",
 		showAliasInput: true,
 		templatePath: "",
 	},
 	permanent: {
-		folder: NOTE_TYPE_CONFIG.permanent.folder,
+		folder: "",
 		fileNameFormat: "{{zettel-id}}-{{title}}",
 		showAliasInput: true,
 		templatePath: "",
@@ -105,6 +106,8 @@ export class PageZettelSettingTab extends PluginSettingTab {
 				new FileSuggest(this.app, text.inputEl);
 			});
 
+		this.addFrontmatterPreview(containerEl, "fleeting");
+
 		// Literature設定セクション
 		new Setting(containerEl).setName(t("settings.noteTypes.literature.heading")).setHeading();
 
@@ -159,6 +162,8 @@ export class PageZettelSettingTab extends PluginSettingTab {
 				new FileSuggest(this.app, text.inputEl);
 			});
 
+		this.addFrontmatterPreview(containerEl, "literature");
+
 		// Permanent設定セクション
 		new Setting(containerEl).setName(t("settings.noteTypes.permanent.heading")).setHeading();
 
@@ -212,6 +217,8 @@ export class PageZettelSettingTab extends PluginSettingTab {
 					});
 				new FileSuggest(this.app, text.inputEl);
 			});
+
+		this.addFrontmatterPreview(containerEl, "permanent");
 
 		// 動作設定セクション
 		new Setting(containerEl).setName(t("settings.behavior.heading")).setHeading();
@@ -293,5 +300,21 @@ export class PageZettelSettingTab extends PluginSettingTab {
 						await this.plugin.saveSettings();
 					}),
 			);
+	}
+
+	/**
+	 * デフォルトフロントマターのプレビューを追加
+	 */
+	private addFrontmatterPreview(containerEl: HTMLElement, type: NoteType): void {
+		const setting = new Setting(containerEl)
+			.setName(t(`settings.noteTypes.${type}.defaultFrontmatter.name`))
+			.setDesc(t(`settings.noteTypes.${type}.defaultFrontmatter.desc`));
+
+		const previewEl = setting.settingEl.createDiv({
+			cls: "page-zettel-frontmatter-preview",
+		});
+		previewEl.createEl("pre").createEl("code", {
+			text: getDefaultFrontmatterPreview(type),
+		});
 	}
 }

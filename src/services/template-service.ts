@@ -1,6 +1,7 @@
 import { App, moment, TFile } from "obsidian";
 import type { NoteType } from "../types/note-types";
 import type { PageZettelSettings } from "../types/settings";
+import { parseTemplateFrontmatter } from "../utils/frontmatter-parser";
 
 export interface TemplateVariables {
 	title: string;
@@ -8,6 +9,14 @@ export interface TemplateVariables {
 	date: string;
 	alias?: string;
 	[key: string]: string | undefined;
+}
+
+/**
+ * テンプレート処理結果（フロントマター分離版）
+ */
+export interface ProcessedTemplateResult {
+	frontmatter: Record<string, unknown> | null;
+	body: string;
 }
 
 export class TemplateService {
@@ -33,6 +42,32 @@ export class TemplateService {
 
 		// 3. 変数を展開
 		return this.expandVariables(templateContent, variables);
+	}
+
+	/**
+	 * テンプレートを読み込み、フロントマターと本文を分離して変数展開
+	 * @returns フロントマターオブジェクトと展開済み本文
+	 */
+	async getProcessedTemplateWithFrontmatter(
+		type: NoteType,
+		variables: TemplateVariables,
+	): Promise<ProcessedTemplateResult> {
+		const templateContent = await this.loadTemplate(type);
+
+		if (!templateContent) {
+			return { frontmatter: null, body: variables.content || "" };
+		}
+
+		// フロントマターと本文を分離
+		const parsed = parseTemplateFrontmatter(templateContent);
+
+		// 本文部分のみ変数展開
+		const expandedBody = this.expandVariables(parsed.body, variables);
+
+		return {
+			frontmatter: parsed.frontmatter,
+			body: expandedBody,
+		};
 	}
 
 	/**

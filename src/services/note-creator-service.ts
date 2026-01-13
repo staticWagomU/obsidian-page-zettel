@@ -4,6 +4,7 @@ import type { PageZettelSettings } from "../types/settings";
 import { FrontmatterService } from "./frontmatter-service";
 import { TemplateService } from "./template-service";
 import { FolderService } from "./folder-service";
+import { mergeFrontmatter } from "../utils/frontmatter-parser";
 import { t } from "../i18n";
 
 /**
@@ -56,30 +57,38 @@ export class NoteCreatorService {
 		const fileName = this.generateFileName(type, title, alias);
 		const filePath = `${folderPath}/${fileName}`;
 
-		// 4. テンプレート統合: settings[type].templatePathから取得
-		const templateContent = await this.getProcessedTemplate(type, {
-			title,
-			content: content || "",
-			alias,
-		});
+		// 4. テンプレート処理（フロントマター分離）
+		const templateResult = await this.templateService.getProcessedTemplateWithFrontmatter(
+			type,
+			{
+				title,
+				content: content || "",
+				alias,
+				date: new Date().toISOString(),
+			},
+		);
 
-		// 5. フロントマター統合: frontmatterService.addFrontmatter()
-		const metadata: NoteMetadata = {
+		// 5. デフォルトメタデータ作成
+		const defaultMetadata: NoteMetadata = {
 			type,
 			created: new Date().toISOString(),
 			tags: [type],
 		};
 
 		if (sourceFile) {
-			metadata.source_notes = [`[[${sourceFile.basename}]]`];
+			defaultMetadata.source_notes = [`[[${sourceFile.basename}]]`];
 		}
 
+		// 6. フロントマターマージ（type以外はテンプレート優先）
+		const mergedMetadata = mergeFrontmatter(defaultMetadata, templateResult.frontmatter);
+
+		// 7. 最終コンテンツ生成
 		const finalContent = this.frontmatterService.addFrontmatter(
-			templateContent || content || "",
-			metadata,
+			templateResult.body || content || "",
+			mergedMetadata,
 		);
 
-		// 6. ファイル作成 + Notice通知
+		// 8. ファイル作成 + Notice通知
 		const file = await this.app.vault.create(filePath, finalContent);
 
 		new Notice(t("notices.noteCreated", { icon: NOTE_TYPE_CONFIG[type].icon, title }));
@@ -112,28 +121,6 @@ export class NoteCreatorService {
 				// フォルダが既に存在する場合のエラーを無視
 			}
 		}
-	}
-
-	/**
-	 * テンプレートを取得して変数を展開
-	 * settings[type].templatePathを使用
-	 */
-	private async getProcessedTemplate(
-		type: NoteType,
-		variables: { title: string; content: string; alias?: string },
-	): Promise<string> {
-		const templatePath = this.settings[type].templatePath;
-		if (!templatePath) {
-			return variables.content;
-		}
-
-		// TemplateServiceを使用してテンプレートを展開
-		return await this.templateService.getProcessedTemplate(type, {
-			title: variables.title,
-			content: variables.content,
-			alias: variables.alias,
-			date: new Date().toISOString(),
-		});
 	}
 
 	/**

@@ -43,6 +43,10 @@
 					"name": "テンプレートファイル",
 					"desc": "テンプレートファイル名（テンプレートフォルダからの相対パス）",
 					"placeholder": "fleeting-template.md"
+				},
+				"defaultFrontmatter": {
+					"name": "デフォルトフロントマター",
+					"desc": "テンプレートのフロントマターとマージされます。typeは常にこの値が使用されます。"
 				}
 			},
 			"literature": {
@@ -65,6 +69,10 @@
 					"name": "テンプレートファイル",
 					"desc": "テンプレートファイル名（テンプレートフォルダからの相対パス）",
 					"placeholder": "literature-template.md"
+				},
+				"defaultFrontmatter": {
+					"name": "デフォルトフロントマター",
+					"desc": "テンプレートのフロントマターとマージされます。typeは常にこの値が使用されます。"
 				}
 			},
 			"permanent": {
@@ -87,6 +95,10 @@
 					"name": "テンプレートファイル",
 					"desc": "テンプレートファイル名（テンプレートフォルダからの相対パス）",
 					"placeholder": "permanent-template.md"
+				},
+				"defaultFrontmatter": {
+					"name": "デフォルトフロントマター",
+					"desc": "テンプレートのフロントマターとマージされます。typeは常にこの値が使用されます。"
 				}
 			}
 		},
