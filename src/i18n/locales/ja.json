@@ -1,6 +1,9 @@
 {
 	"commands": {
 		"extractToNote": "ノートに切り出す",
+		"extractToFleeting": "Fleeting Noteに切り出す",
+		"extractToLiterature": "Literature Noteに切り出す",
+		"extractToPermanent": "Permanent Noteに切り出す",
 		"promoteNote": "ノートを昇格",
 		"quickFleeting": "Quick fleeting note",
 		"createNewNote": "新規ノートを作成"

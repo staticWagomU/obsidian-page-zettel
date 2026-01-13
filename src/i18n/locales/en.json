@@ -1,6 +1,9 @@
 {
 	"commands": {
 		"extractToNote": "Extract to note",
+		"extractToFleeting": "Extract to Fleeting Note",
+		"extractToLiterature": "Extract to Literature Note",
+		"extractToPermanent": "Extract to Permanent Note",
 		"promoteNote": "Promote note",
 		"quickFleeting": "Quick fleeting note",
 		"createNewNote": "Create new note"
