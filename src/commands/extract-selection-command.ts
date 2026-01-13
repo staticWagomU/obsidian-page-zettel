@@ -30,6 +30,28 @@ export async function extractSelection(
 	modal.open();
 }
 
+/**
+ * 指定されたノートタイプに直接切り出す（NoteTypeModalをスキップ）
+ * コンテキストメニューから特定タイプを直接選択した場合に使用
+ */
+export async function extractSelectionToType(
+	plugin: PageZettelPlugin,
+	editor: Editor,
+	view: MarkdownView,
+	type: NoteType,
+): Promise<void> {
+	// 選択テキストを取得
+	const selection = editor.getSelection();
+
+	if (!selection || selection.trim() === "") {
+		new Notice(t("notices.selectText"));
+		return;
+	}
+
+	// 直接showAliasInputOrCreateへ（NoteTypeModalをスキップ）
+	await showAliasInputOrCreate(plugin, editor, view, selection, type);
+}
+
 async function showAliasInputOrCreate(
 	plugin: PageZettelPlugin,
 	editor: Editor,
