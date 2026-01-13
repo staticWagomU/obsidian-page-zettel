@@ -37,9 +37,42 @@ const scrum: ScrumDashboard = {
     { id: "PBI-022", story: { role: "Obsidianユーザー", capability: "Extract to Note", benefit: "アトミックノート抽出" }, acceptance_criteria: [{ criterion: "NoteCreatorService統合: extract-selection-command.tsでnoteCreatorService.createNote(type,content,alias)を使用", verification: "NoteManager.createNote()からNoteCreatorService.createNote()に置換" }, { criterion: "マークダウンリンク置換: [[basename]]形式を[alias](relativePath)形式に変更", verification: "DESIGN.md L262-271準拠+エイリアスありは[alias](path)、なしは[filename](path)" }, { criterion: "Extract後のノートオープン設定: settings.behavior.openAfterExtract=trueの場合のみopenLinkText()実行", verification: "BehaviorSettings.openAfterExtract追加+条件分岐" }, { criterion: "インデント削除機能維持: 既存のremoveCommonIndent()とAliasInputModal.removeIndent統合確認", verification: "extract-selection-command.ts L117-134+AliasInputModal L65-73動作確認" }, { criterion: "i18n翻訳キー更新: commands.extractSelection → commands.extractToNote", verification: "ja.json+en.json+main.ts L58-64のコマンド名更新" }], status: "done" },
     { id: "PBI-023", story: { role: "Obsidianユーザー", capability: "孤立Permanent検出(リンクベース)", benefit: "ネットワーク統合" }, acceptance_criteria: [{ criterion: "getOrphanPermanentNotes()リファクタリング: structure_notesフロントマター検出を削除+metadataCache.getFileCache(file)?.links配列から他Permanentノートへのマークダウンリンク被参照をチェック+被参照0件=孤立", verification: "orphan-detector-service.ts L18-62" }, { criterion: "getStats()保持: 統計情報取得メソッドは既存実装を維持（total/orphans/connected/connectionRate計算ロジック変更なし）", verification: "orphan-detector-service.ts L68-97" }, { criterion: "OrphanView維持: クリックでノート遷移機能を維持+統計情報表示を維持+リフレッシュボタンを維持", verification: "orphan-view.ts L103-106 (click), L66-76 (stats), L78-84 (refresh)" }, { criterion: "i18n翻訳キー維持: views.orphan配下の既存翻訳キー（title/stats/refreshButton/emptyMessage）を変更なし", verification: "i18n/locales/ja.json L148-154" }], status: "done" },
     { id: "PBI-024", story: { role: "Obsidianユーザー", capability: "コンテキストメニューExtract", benefit: "右クリックアクセス" }, acceptance_criteria: [{ criterion: "editor-menuイベントで選択テキストがある場合のみExtract to Noteメニューを表示", verification: "main.ts L133-158+editor.getSelection()判定" }, { criterion: "コンテキストメニュークリック時にextractSelection()を実行", verification: "main.ts L154+extract-selection-command.ts統合確認" }, { criterion: "showContextMenuItems=falseの場合メニュー非表示", verification: "main.ts L136+settings.ts L319-327" }, { criterion: "commands.extractToNoteをコンテキストメニュータイトルに使用", verification: "main.ts L147+i18n/locales/ja.json+en.json" }, { criterion: "showEmojiInCommands=trueの場合📝アイコン表示", verification: "main.ts L146-148+settings.ui.showEmojiInCommands" }], status: "done" },
+    // Phase: バグ修正・設定連動
+    { id: "PBI-025", story: { role: "Obsidianユーザー", capability: "昇格時にフォルダ移動するかを設定で制御できる", benefit: "ワークフローの柔軟性向上" }, acceptance_criteria: [{ criterion: "PromotionService.promoteNote()でsettings.behavior.moveOnPromotionを参照", verification: "promotion-service.ts" }, { criterion: "moveOnPromotion=trueの場合のみフォルダ移動を実行", verification: "条件分岐+app.vault.rename()呼び出し制御" }, { criterion: "moveOnPromotion=falseの場合はフロントマター更新のみ実行", verification: "フォルダ移動スキップ確認" }, { criterion: "PromotionServiceコンストラクタでsettings参照保持", verification: "this.settings = settings" }], status: "ready" },
   ],
 
-  sprint: null,
+  sprint: {
+    number: 25,
+    pbi_id: "PBI-025",
+    goal: "PromotionService.promoteNote()でsettings.behavior.moveOnPromotionフラグを参照し、フォルダ移動の有無を制御できるようにする",
+    status: "planning",
+    subtasks: [
+      {
+        test: "PromotionServiceコンストラクタでsettings参照保持: this.settings = settingsでsettings保持",
+        implementation: "services/promotion-service.ts",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: ["AC4対応", "constructor内でthis.settings = settingsを追加", "既存のfolderService初期化パターン踏襲"]
+      },
+      {
+        test: "promoteNote()でmoveOnPromotion条件分岐追加: settings.behavior.moveOnPromotion参照+条件分岐",
+        implementation: "services/promotion-service.ts",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: ["AC1対応", "フォルダ移動処理の前にif(this.settings.behavior.moveOnPromotion)で条件分岐", "moveOnPromotion=trueの場合のみフォルダ移動実行（AC2）", "moveOnPromotion=falseの場合はフォルダ移動スキップ（AC3）"]
+      },
+      {
+        test: "Definition of Done検証: build/lint/format全チェックパス",
+        implementation: "pnpm build && pnpm lint && pnpm format:check",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: ["全DoDチェック通過確認"]
+      }
+    ]
+  },
 
   definition_of_done: { checks: [{ name: "Build passes", run: "pnpm build" }, { name: "Lint passes", run: "pnpm lint" }, { name: "Format check passes", run: "pnpm format:check" }] },
 
