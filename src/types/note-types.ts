@@ -15,8 +15,6 @@ export interface NoteTypeConfig {
 	description: string;
 	/** アイコン（絵文字） */
 	icon: string;
-	/** 保存先フォルダ */
-	folder: string;
 	/** テンプレートファイル名 */
 	template: string;
 }
@@ -30,7 +28,6 @@ export const NOTE_TYPE_CONFIG: Record<NoteType, NoteTypeConfig> = {
 		labelJa: "一時メモ",
 		description: "Quick thought or idea to process later",
 		icon: "💭",
-		folder: "10-Fleeting",
 		template: "fleeting-template.md",
 	},
 	literature: {
@@ -38,7 +35,6 @@ export const NOTE_TYPE_CONFIG: Record<NoteType, NoteTypeConfig> = {
 		labelJa: "文献ノート",
 		description: "Notes from external sources (books, articles)",
 		icon: "📚",
-		folder: "20-Literature",
 		template: "literature-template.md",
 	},
 	permanent: {
@@ -46,7 +42,6 @@ export const NOTE_TYPE_CONFIG: Record<NoteType, NoteTypeConfig> = {
 		labelJa: "永続ノート",
 		description: "Atomic, interconnected knowledge unit",
 		icon: "💎",
-		folder: "30-Permanent",
 		template: "permanent-template.md",
 	},
 };

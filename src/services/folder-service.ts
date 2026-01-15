@@ -1,5 +1,5 @@
 import { App } from "obsidian";
-import { NoteType, NOTE_TYPE_CONFIG } from "../types/note-types";
+import { NoteType } from "../types/note-types";
 import type { PageZettelSettings } from "../types/settings";
 
 export class FolderService {
@@ -13,17 +13,21 @@ export class FolderService {
 
 	/**
 	 * ノートタイプに対応するフォルダパスを取得
+	 * 設定が空の場合は空文字（Vaultルート）を返す
 	 */
 	getFolderPath(type: NoteType): string {
-		return this.settings[type].folder || NOTE_TYPE_CONFIG[type].folder;
+		return this.settings[type].folder;
 	}
 
 	/**
 	 * フォルダが存在することを確認し、なければ作成
+	 * 設定が空の場合はフォルダ作成をスキップし、Vaultルートを使用
 	 */
 	async ensureFolderExists(type: NoteType): Promise<string> {
 		const folderPath = this.getFolderPath(type);
-		await this.ensureFolderExistsByPath(folderPath);
+		if (folderPath) {
+			await this.ensureFolderExistsByPath(folderPath);
+		}
 		return folderPath;
 	}
 
