@@ -268,11 +268,24 @@ export default class PageZettelPlugin extends Plugin {
 	}
 
 	async loadSettings() {
-		this.settings = Object.assign(
-			{},
-			DEFAULT_SETTINGS,
-			(await this.loadData()) as Partial<PageZettelSettings>,
-		);
+		const savedData = (await this.loadData()) as Partial<PageZettelSettings> | null;
+		this.settings = this.deepMergeSettings(DEFAULT_SETTINGS, savedData ?? {});
+	}
+
+	/**
+	 * ネストされたオブジェクトを含む設定を深くマージする
+	 */
+	private deepMergeSettings(
+		defaults: PageZettelSettings,
+		saved: Partial<PageZettelSettings>,
+	): PageZettelSettings {
+		return {
+			fleeting: { ...defaults.fleeting, ...saved.fleeting },
+			literature: { ...defaults.literature, ...saved.literature },
+			permanent: { ...defaults.permanent, ...saved.permanent },
+			behavior: { ...defaults.behavior, ...saved.behavior },
+			ui: { ...defaults.ui, ...saved.ui },
+		};
 	}
 
 	async saveSettings() {
