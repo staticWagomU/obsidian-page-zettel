@@ -44,6 +44,11 @@
 					"desc": "Template file name (relative to templates folder)",
 					"placeholder": "fleeting-template.md"
 				},
+				"icon": {
+					"name": "Icon",
+					"desc": "Emoji icon for fleeting notes (displayed in commands and modals)",
+					"placeholder": "💭"
+				},
 				"defaultFrontmatter": {
 					"name": "Default frontmatter",
 					"desc": "Merged with template frontmatter. The type field always uses this value."
@@ -70,6 +75,11 @@
 					"desc": "Template file name (relative to templates folder)",
 					"placeholder": "literature-template.md"
 				},
+				"icon": {
+					"name": "Icon",
+					"desc": "Emoji icon for literature notes (displayed in commands and modals)",
+					"placeholder": "📚"
+				},
 				"defaultFrontmatter": {
 					"name": "Default frontmatter",
 					"desc": "Merged with template frontmatter. The type field always uses this value."
@@ -95,6 +105,11 @@
 					"name": "Template file",
 					"desc": "Template file name (relative to templates folder)",
 					"placeholder": "permanent-template.md"
+				},
+				"icon": {
+					"name": "Icon",
+					"desc": "Emoji icon for permanent notes (displayed in commands and modals)",
+					"placeholder": "💎"
 				},
 				"defaultFrontmatter": {
 					"name": "Default frontmatter",

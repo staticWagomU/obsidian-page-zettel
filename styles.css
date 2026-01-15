@@ -6,3 +6,44 @@ available in the app when your plugin is enabled.
 If your plugin does not need CSS, delete this file.
 
 */
+
+/* Emoji Suggest Styles */
+.page-zettel-emoji-suggestion {
+	padding: 8px 12px;
+}
+
+.page-zettel-emoji-container {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.page-zettel-emoji-icon {
+	font-size: 24px;
+	line-height: 1;
+	min-width: 28px;
+	text-align: center;
+}
+
+.page-zettel-emoji-text {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.page-zettel-emoji-name {
+	font-weight: 500;
+}
+
+.page-zettel-emoji-category {
+	font-size: 0.8em;
+	color: var(--text-muted);
+	text-transform: capitalize;
+}
+
+/* Settings icon input field */
+.page-zettel-icon-input {
+	width: 60px !important;
+	font-size: 1.2em;
+	text-align: center;
+}

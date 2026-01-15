@@ -4,6 +4,7 @@ import type { PageZettelSettings } from "./types/settings";
 import type { NoteType } from "./types/note-types";
 import { FolderSuggest } from "./ui/suggesters/folder-suggest";
 import { FileSuggest } from "./ui/suggesters/file-suggest";
+import { EmojiSuggest } from "./ui/suggesters/emoji-suggest";
 import { getDefaultFrontmatterPreview } from "./utils/frontmatter-parser";
 import { t } from "./i18n";
 
@@ -13,18 +14,21 @@ export const DEFAULT_SETTINGS: PageZettelSettings = {
 		fileNameFormat: "{{date}}-{{title}}",
 		showAliasInput: false,
 		templatePath: "",
+		icon: "💭",
 	},
 	literature: {
 		folder: "",
 		fileNameFormat: "{{date}}-{{title}}",
 		showAliasInput: true,
 		templatePath: "",
+		icon: "📚",
 	},
 	permanent: {
 		folder: "",
 		fileNameFormat: "{{zettel-id}}-{{title}}",
 		showAliasInput: true,
 		templatePath: "",
+		icon: "💎",
 	},
 	behavior: {
 		insertLinkAfterExtract: true,
@@ -106,6 +110,20 @@ export class PageZettelSettingTab extends PluginSettingTab {
 				new FileSuggest(this.app, text.inputEl);
 			});
 
+		new Setting(containerEl)
+			.setName(t("settings.noteTypes.fleeting.icon.name"))
+			.setDesc(t("settings.noteTypes.fleeting.icon.desc"))
+			.addText((text) => {
+				text.setPlaceholder(t("settings.noteTypes.fleeting.icon.placeholder"))
+					.setValue(this.plugin.settings.fleeting.icon)
+					.onChange(async (value) => {
+						this.plugin.settings.fleeting.icon = value;
+						await this.plugin.saveSettings();
+					});
+				text.inputEl.addClass("page-zettel-icon-input");
+				new EmojiSuggest(this.app, text.inputEl);
+			});
+
 		this.addFrontmatterPreview(containerEl, "fleeting");
 
 		// Literature設定セクション
@@ -162,6 +180,20 @@ export class PageZettelSettingTab extends PluginSettingTab {
 				new FileSuggest(this.app, text.inputEl);
 			});
 
+		new Setting(containerEl)
+			.setName(t("settings.noteTypes.literature.icon.name"))
+			.setDesc(t("settings.noteTypes.literature.icon.desc"))
+			.addText((text) => {
+				text.setPlaceholder(t("settings.noteTypes.literature.icon.placeholder"))
+					.setValue(this.plugin.settings.literature.icon)
+					.onChange(async (value) => {
+						this.plugin.settings.literature.icon = value;
+						await this.plugin.saveSettings();
+					});
+				text.inputEl.addClass("page-zettel-icon-input");
+				new EmojiSuggest(this.app, text.inputEl);
+			});
+
 		this.addFrontmatterPreview(containerEl, "literature");
 
 		// Permanent設定セクション
@@ -216,6 +248,20 @@ export class PageZettelSettingTab extends PluginSettingTab {
 						await this.plugin.saveSettings();
 					});
 				new FileSuggest(this.app, text.inputEl);
+			});
+
+		new Setting(containerEl)
+			.setName(t("settings.noteTypes.permanent.icon.name"))
+			.setDesc(t("settings.noteTypes.permanent.icon.desc"))
+			.addText((text) => {
+				text.setPlaceholder(t("settings.noteTypes.permanent.icon.placeholder"))
+					.setValue(this.plugin.settings.permanent.icon)
+					.onChange(async (value) => {
+						this.plugin.settings.permanent.icon = value;
+						await this.plugin.saveSettings();
+					});
+				text.inputEl.addClass("page-zettel-icon-input");
+				new EmojiSuggest(this.app, text.inputEl);
 			});
 
 		this.addFrontmatterPreview(containerEl, "permanent");

@@ -10,6 +10,8 @@ export interface NoteTypeSettings {
 	showAliasInput: boolean;
 	/** テンプレートファイルパス（絶対パス） */
 	templatePath: string;
+	/** カスタムアイコン（絵文字） */
+	icon: string;
 }
 
 export interface PageZettelSettings {

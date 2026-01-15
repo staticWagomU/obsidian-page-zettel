@@ -21,6 +21,7 @@ export async function extractSelection(
 	// 2. ノートタイプを選択
 	const modal = new NoteTypeModal(
 		plugin.app,
+		plugin.settings,
 		(type: NoteType) => {
 			void showAliasInputOrCreate(plugin, editor, view, selection, type);
 		},

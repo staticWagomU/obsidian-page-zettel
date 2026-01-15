@@ -15,6 +15,7 @@ import { NoteTypeModal } from "./ui/modals/note-type-modal";
 import { AliasInputModal } from "./ui/modals/alias-input-modal";
 import { NoteType } from "./types/note-types";
 import { t } from "./i18n";
+import { getIconForNoteType } from "./utils/icon-helper";
 
 export default class PageZettelPlugin extends Plugin {
 	settings: PageZettelSettings;
@@ -58,6 +59,7 @@ export default class PageZettelPlugin extends Plugin {
 			name: this.settings.ui.showEmojiInCommands
 				? `📝 ${t("commands.extractToNote")}`
 				: t("commands.extractToNote"),
+			icon: "scissors",
 			editorCallback: (editor: Editor, view: MarkdownView) => {
 				void extractSelection(this, editor, view);
 			},
@@ -68,6 +70,7 @@ export default class PageZettelPlugin extends Plugin {
 			name: this.settings.ui.showEmojiInCommands
 				? `⬆️ ${t("commands.promoteNote")}`
 				: t("commands.promoteNote"),
+			icon: "arrow-up",
 			callback: () => {
 				void promoteNote(this);
 			},
@@ -78,6 +81,7 @@ export default class PageZettelPlugin extends Plugin {
 			name: this.settings.ui.showEmojiInCommands
 				? `⚡ ${t("commands.quickFleeting")}`
 				: t("commands.quickFleeting"),
+			icon: "zap",
 			callback: () => {
 				const modal = new QuickCaptureModal(this.app, this, (title: string) => {
 					void (async () => {
@@ -100,9 +104,11 @@ export default class PageZettelPlugin extends Plugin {
 			name: this.settings.ui.showEmojiInCommands
 				? `📄 ${t("commands.createNewNote")}`
 				: t("commands.createNewNote"),
+			icon: "file-plus",
 			callback: () => {
 				const modal = new NoteTypeModal(
 					this.app,
+					this.settings,
 					(type: NoteType) => {
 						// 設定確認: showAliasInputフラグ
 						const showAliasInput = this.settings[type].showAliasInput;
@@ -142,17 +148,17 @@ export default class PageZettelPlugin extends Plugin {
 					const noteTypes: { type: NoteType; icon: string; translationKey: string }[] = [
 						{
 							type: "fleeting",
-							icon: "💡",
+							icon: getIconForNoteType(this.settings, "fleeting"),
 							translationKey: "commands.extractToFleeting",
 						},
 						{
 							type: "literature",
-							icon: "📚",
+							icon: getIconForNoteType(this.settings, "literature"),
 							translationKey: "commands.extractToLiterature",
 						},
 						{
 							type: "permanent",
-							icon: "💎",
+							icon: getIconForNoteType(this.settings, "permanent"),
 							translationKey: "commands.extractToPermanent",
 						},
 					];

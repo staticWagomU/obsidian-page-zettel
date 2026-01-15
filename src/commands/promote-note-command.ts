@@ -35,6 +35,7 @@ export async function promoteNote(plugin: PageZettelPlugin): Promise<void> {
 	// 4. NoteTypeModal で昇格先タイプを選択
 	const modal = new NoteTypeModal(
 		plugin.app,
+		plugin.settings,
 		(toType: NoteType) => {
 			void (async () => {
 				await plugin.promotionService.promoteNote(file, currentType, toType);

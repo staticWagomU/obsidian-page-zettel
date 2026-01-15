@@ -44,6 +44,11 @@
 					"desc": "テンプレートファイル名（テンプレートフォルダからの相対パス）",
 					"placeholder": "fleeting-template.md"
 				},
+				"icon": {
+					"name": "アイコン",
+					"desc": "Fleetingノートの絵文字アイコン（コマンドやモーダルに表示）",
+					"placeholder": "💭"
+				},
 				"defaultFrontmatter": {
 					"name": "デフォルトフロントマター",
 					"desc": "テンプレートのフロントマターとマージされます。typeは常にこの値が使用されます。"
@@ -70,6 +75,11 @@
 					"desc": "テンプレートファイル名（テンプレートフォルダからの相対パス）",
 					"placeholder": "literature-template.md"
 				},
+				"icon": {
+					"name": "アイコン",
+					"desc": "Literatureノートの絵文字アイコン（コマンドやモーダルに表示）",
+					"placeholder": "📚"
+				},
 				"defaultFrontmatter": {
 					"name": "デフォルトフロントマター",
 					"desc": "テンプレートのフロントマターとマージされます。typeは常にこの値が使用されます。"
@@ -95,6 +105,11 @@
 					"name": "テンプレートファイル",
 					"desc": "テンプレートファイル名（テンプレートフォルダからの相対パス）",
 					"placeholder": "permanent-template.md"
+				},
+				"icon": {
+					"name": "アイコン",
+					"desc": "Permanentノートの絵文字アイコン（コマンドやモーダルに表示）",
+					"placeholder": "💎"
 				},
 				"defaultFrontmatter": {
 					"name": "デフォルトフロントマター",
