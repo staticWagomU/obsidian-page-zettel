@@ -382,6 +382,41 @@ export class PageZettelSettingTab extends PluginSettingTab {
 						this.plugin.updateQuickAddWidget();
 					}),
 			);
+
+		// ホットキー設定セクション
+		new Setting(containerEl).setName(t("settings.hotkeys.heading")).setHeading();
+
+		new Setting(containerEl).setDesc(t("settings.hotkeys.description"));
+
+		// 4コマンドの一覧表示
+		const commands = [
+			{ id: "create-new-note", name: t("settings.hotkeys.commands.createNewNote") },
+			{ id: "extract-selection", name: t("settings.hotkeys.commands.extractToNote") },
+			{ id: "promote-note", name: t("settings.hotkeys.commands.promoteNote") },
+			{ id: "quick-fleeting", name: t("settings.hotkeys.commands.quickFleeting") },
+		];
+
+		for (const command of commands) {
+			const commandId = `page-zettel:${command.id}`;
+			new Setting(containerEl)
+				.setName(command.name)
+				.setDesc(`${t("settings.hotkeys.commandIdLabel")}: ${commandId}`);
+		}
+
+		// Obsidianホットキー設定を開くボタン
+		new Setting(containerEl).addButton((button) =>
+			button
+				.setButtonText(t("settings.hotkeys.openHotkeysButton"))
+				.setCta()
+				.onClick(() => {
+					// Obsidianの設定画面を開き、ホットキータブに移動
+					// 内部APIだが広く使用されているパターン
+					/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any */
+					(this.app as any).setting.open();
+					(this.app as any).setting.openTabById("hotkeys");
+					/* eslint-enable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any */
+				}),
+		);
 	}
 
 	/**
