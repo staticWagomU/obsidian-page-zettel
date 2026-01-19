@@ -153,6 +153,18 @@
 			"showContextMenuItems": {
 				"name": "コンテキストメニューに表示",
 				"desc": "右クリックメニューにノート操作を表示します"
+			},
+			"showQuickAddWidget": {
+				"name": "Quick Add Widget を表示",
+				"desc": "画面にFloating Action Button (FAB) を表示して、素早くFleeting Noteを作成できます"
+			},
+			"quickAddWidgetPosition": {
+				"name": "Quick Add Widget の位置",
+				"desc": "Floating Action Buttonの表示位置を選択します"
+			},
+			"quickAddWidgetPositionOptions": {
+				"bottomRight": "右下",
+				"bottomLeft": "左下"
 			}
 		}
 	},

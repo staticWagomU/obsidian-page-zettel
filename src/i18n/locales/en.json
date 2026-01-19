@@ -153,6 +153,18 @@
 			"showContextMenuItems": {
 				"name": "Show in context menu",
 				"desc": "Display note operations in right-click context menu"
+			},
+			"showQuickAddWidget": {
+				"name": "Show Quick Add Widget",
+				"desc": "Display a Floating Action Button (FAB) on screen for quick Fleeting Note creation"
+			},
+			"quickAddWidgetPosition": {
+				"name": "Quick Add Widget Position",
+				"desc": "Select the position of the Floating Action Button"
+			},
+			"quickAddWidgetPositionOptions": {
+				"bottomRight": "Bottom Right",
+				"bottomLeft": "Bottom Left"
 			}
 		}
 	},

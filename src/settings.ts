@@ -40,6 +40,8 @@ export const DEFAULT_SETTINGS: PageZettelSettings = {
 		showEmojiInCommands: true,
 		mobileOptimized: true,
 		showContextMenuItems: true,
+		showQuickAddWidget: true,
+		quickAddWidgetPosition: "bottom-right",
 	},
 };
 

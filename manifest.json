@@ -1,10 +1,1 @@
-{
-	"id": "page-zettel",
-	"name": "Page Zettel",
-	"version": "1.0.0",
-	"minAppVersion": "0.15.0",
-	"description": "Zettelkasten workflow support for Obsidian - manage Fleeting, Permanent, and Structure notes with ease.",
-	"author": "staticWagomU",
-	"authorUrl": "https://github.com/staticWagomU",
-	"isDesktopOnly": false
-}
+{"id":"page-zettel","name":"Page Zettel","version":"1.7.0","minAppVersion":"0.15.0","description":"Zettelkasten workflow support for Obsidian - manage Fleeting, Permanent, and Structure notes with ease.","author":"staticWagomU","authorUrl":"https://github.com/staticWagomU","isDesktopOnly":false}

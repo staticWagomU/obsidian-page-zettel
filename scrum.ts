@@ -48,7 +48,87 @@ const scrum: ScrumDashboard = {
     { id: "PBI-029", story: { role: "Obsidianユーザー", capability: "設定画面からObsidianのホットキー設定に素早くアクセスし、主要コマンドのホットキーを確認・設定できる", benefit: "自分のワークフローに合わせた素早い操作" }, acceptance_criteria: [{ criterion: "設定UIに「ホットキー設定」セクション追加: new Setting(containerEl).setName(t(\"settings.hotkeys.heading\")).setHeading()", verification: "settings.ts" }, { criterion: "プラグインコマンド一覧表示: 4コマンド(Create New Note/Extract to Note/Promote Note/Quick Fleeting)をコマンドID・名前・説明付きでリスト表示", verification: "settings.tsで静的リスト生成" }, { criterion: "Obsidianホットキー設定へのナビゲーションボタン: Setting.addButton()でObsidianの設定>ホットキー画面を開くボタンを設置", verification: "app.setting.open()+app.setting.openTabById(\"hotkeys\") (内部APIだが広く使用されているパターン)" }, { criterion: "コマンドID検索ヒント表示: 各コマンドのIDをコピー可能なテキストで表示し、ホットキー設定画面での検索を容易にする", verification: "page-zettel:コマンドID形式で表示" }, { criterion: "i18n対応: settings.hotkeys配下に翻訳キー追加(heading/description/openHotkeysButton/commandList/commandIds)", verification: "ja.json+en.json" }], status: "ready" },
   ],
 
-  sprint: null,
+  sprint: {
+    number: 27,
+    pbi_id: "PBI-028",
+    goal: "モバイルユーザーがFloating Action Buttonから即座にFleeting Noteを作成できるようにする",
+    status: "in_progress",
+    subtasks: [
+      {
+        test: "AC1+AC8: UISettings型拡張(showQuickAddWidget/quickAddWidgetPosition) + i18n翻訳キー追加(settings.ui.showQuickAddWidget/quickAddWidgetPosition/quickAddWidgetPositionOptions)",
+        implementation: "types/settings.ts, settings.ts, i18n/locales/ja.json, i18n/locales/en.json",
+        type: "behavioral",
+        status: "green",
+        commits: [],
+        notes: [
+          "UISettings型にshowQuickAddWidget: boolean追加",
+          "UISettings型にquickAddWidgetPosition: 'bottom-right' | 'bottom-left'追加",
+          "DEFAULT_SETTINGS.ui.showQuickAddWidget = true (モバイルデフォルト表示)",
+          "DEFAULT_SETTINGS.ui.quickAddWidgetPosition = 'bottom-right'",
+          "i18n翻訳キー: settings.ui.showQuickAddWidget配下(name/desc)",
+          "i18n翻訳キー: settings.ui.quickAddWidgetPosition配下(name/desc)",
+          "i18n翻訳キー: settings.ui.quickAddWidgetPositionOptions(bottomRight/bottomLeft)"
+        ]
+      },
+      {
+        test: "AC2+AC5: QuickAddWidget実装(HTMLElement.createDiv()でFAB作成) + 位置設定連動(CSS left/right切替)",
+        implementation: "ui/widgets/quick-add-widget.ts",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [
+          "QuickAddWidgetクラス作成",
+          "HTMLElement.createDiv()でFABコンテナ作成",
+          "position: fixed + z-index: 1000以上でオーバーレイ表示",
+          "bottom: 20px固定",
+          "quickAddWidgetPosition === 'bottom-right'時: right: 20px",
+          "quickAddWidgetPosition === 'bottom-left'時: left: 20px",
+          "FABボタンにアイコン(+または稲妻)を表示"
+        ]
+      },
+      {
+        test: "AC3+AC6: FABクリックイベント(QuickCaptureModal起動) + レイアウト変更連動(workspace.on('layout-change')でサイドバー展開検出)",
+        implementation: "ui/widgets/quick-add-widget.ts, main.ts",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [
+          "FABクリック時にQuickCaptureModal起動(main.ts L86-98パターン踏襲)",
+          "Plugin.noteManager.createNote()でFleeting作成",
+          "workspace.on('layout-change')イベント登録",
+          "workspace.rightSplit.collapsed判定でサイドバー展開状態検出",
+          "サイドバー展開時はFAB非表示(display: none)"
+        ]
+      },
+      {
+        test: "AC4: プラットフォーム条件分岐(Platform.isMobileでデフォルト表示切替 + settings.ui.showQuickAddWidgetで手動制御)",
+        implementation: "main.ts, ui/widgets/quick-add-widget.ts",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [
+          "Platform.isMobileでプラットフォーム判定(main.ts L189パターン踏襲)",
+          "モバイル: デフォルトでFAB表示",
+          "デスクトップ: デフォルトでFAB非表示(ユーザーが設定で有効化可能)",
+          "settings.ui.showQuickAddWidgetで最終的な表示制御"
+        ]
+      },
+      {
+        test: "AC7+AC9: 設定UI追加(FAB表示トグル+位置選択ドロップダウン) + プラグインライフサイクル統合(onload/onunload)",
+        implementation: "settings.ts, main.ts",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [
+          "UIセクションにFAB表示トグル追加(showContextMenuItemsパターン踏襲)",
+          "位置選択ドロップダウン追加(DropdownComponentでbottom-right/bottom-left)",
+          "onload()でQuickAddWidget初期化",
+          "onunload()でQuickAddWidget.remove()実行",
+          "設定変更時のWidget再描画処理"
+        ]
+      }
+    ]
+  },
 
   definition_of_done: { checks: [{ name: "Build passes", run: "pnpm build" }, { name: "Lint passes", run: "pnpm lint" }, { name: "Format check passes", run: "pnpm format:check" }] },
 

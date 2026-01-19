@@ -45,4 +45,8 @@ export interface UISettings {
 	mobileOptimized: boolean;
 	/** コンテキストメニューにノート操作を表示 */
 	showContextMenuItems: boolean;
+	/** Quick Add Widget (FAB) を表示 */
+	showQuickAddWidget: boolean;
+	/** Quick Add Widget の位置 */
+	quickAddWidgetPosition: "bottom-right" | "bottom-left";
 }
