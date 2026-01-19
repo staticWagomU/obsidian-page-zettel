@@ -45,10 +45,44 @@ const scrum: ScrumDashboard = {
     { id: "PBI-027", story: { role: "Zettelkasten実践者", capability: "テンプレートファイルにカスタムYAMLフロントマターを定義できる", benefit: "各ノートタイプに独自のメタデータフィールドを追加できる" }, acceptance_criteria: [{ criterion: "テンプレートのフロントマターとデフォルトフロントマターがマージされる", verification: "手動テスト" }, { criterion: "typeフィールドは常にデフォルト値（上書き不可）", verification: "手動テスト" }, { criterion: "type以外のフィールドはテンプレート側が優先", verification: "手動テスト" }, { criterion: "テンプレートにフロントマターがない場合、従来通りデフォルトのみ適用", verification: "手動テスト" }, { criterion: "設定画面で各ノートタイプのデフォルトフロントマターがプレビュー表示される", verification: "目視確認" }], status: "done" },
     // Phase: UX改善機能
     { id: "PBI-028", story: { role: "Obsidianモバイルユーザー", capability: "Floating Action Buttonから即座にFleeting Noteを作成できる", benefit: "モバイルでのアイデアキャプチャを最速化" }, acceptance_criteria: [{ criterion: "UISettings型拡張: showQuickAddWidget: boolean/quickAddWidgetPosition: 'bottom-right' | 'bottom-left'を追加", verification: "types/settings.ts+DEFAULT_SETTINGSにデフォルト値追加" }, { criterion: "QuickAddWidget実装: HTMLElement.createDiv()でFABを作成+position:fixed+z-index:1000以上でオーバーレイ表示", verification: "ui/widgets/quick-add-widget.ts作成" }, { criterion: "FABクリックイベント: QuickCaptureModal起動(既存実装再利用)+Plugin.noteManager.createNote()でFleeting作成", verification: "main.ts L86-98のQuickCaptureModalパターン踏襲" }, { criterion: "プラットフォーム条件分岐: Platform.isMobileでデフォルト表示切替+settings.ui.showQuickAddWidgetで手動制御可能", verification: "main.ts L189のPlatform.isDesktopパターン踏襲" }, { criterion: "位置設定連動: quickAddWidgetPosition設定でCSSのleft/rightプロパティを切替", verification: "bottom-right時right:20px/bottom-left時left:20px" }, { criterion: "レイアウト変更連動: workspace.on('layout-change')でサイドバー展開状態を検出+展開時FAB非表示", verification: "workspace.rightSplit.collapsed判定" }, { criterion: "設定UI追加: UIセクションにFAB表示トグル+位置選択ドロップダウンを追加", verification: "settings.ts+既存UISettings UIパターン踏襲" }, { criterion: "i18n翻訳キー追加: settings.ui.showQuickAddWidget/quickAddWidgetPosition/quickAddWidgetPositionOptions配下", verification: "ja.json+en.json" }, { criterion: "プラグインライフサイクル統合: onload()でWidget初期化+onunload()でWidget.remove()実行", verification: "main.ts" }], status: "done" },
-    { id: "PBI-029", story: { role: "Obsidianユーザー", capability: "設定画面からObsidianのホットキー設定に素早くアクセスし、主要コマンドのホットキーを確認・設定できる", benefit: "自分のワークフローに合わせた素早い操作" }, acceptance_criteria: [{ criterion: "設定UIに「ホットキー設定」セクション追加: new Setting(containerEl).setName(t(\"settings.hotkeys.heading\")).setHeading()", verification: "settings.ts" }, { criterion: "プラグインコマンド一覧表示: 4コマンド(Create New Note/Extract to Note/Promote Note/Quick Fleeting)をコマンドID・名前・説明付きでリスト表示", verification: "settings.tsで静的リスト生成" }, { criterion: "Obsidianホットキー設定へのナビゲーションボタン: Setting.addButton()でObsidianの設定>ホットキー画面を開くボタンを設置", verification: "app.setting.open()+app.setting.openTabById(\"hotkeys\") (内部APIだが広く使用されているパターン)" }, { criterion: "コマンドID検索ヒント表示: 各コマンドのIDをコピー可能なテキストで表示し、ホットキー設定画面での検索を容易にする", verification: "page-zettel:コマンドID形式で表示" }, { criterion: "i18n対応: settings.hotkeys配下に翻訳キー追加(heading/description/openHotkeysButton/commandList/commandIds)", verification: "ja.json+en.json" }], status: "ready" },
+    { id: "PBI-029", story: { role: "Obsidianユーザー", capability: "設定画面からObsidianのホットキー設定に素早くアクセスし、主要コマンドのホットキーを確認・設定できる", benefit: "自分のワークフローに合わせた素早い操作" }, acceptance_criteria: [{ criterion: "設定UIに「ホットキー設定」セクション追加: new Setting(containerEl).setName(t(\"settings.hotkeys.heading\")).setHeading()", verification: "settings.ts" }, { criterion: "プラグインコマンド一覧表示: 4コマンド(Create New Note/Extract to Note/Promote Note/Quick Fleeting)をコマンドID・名前・説明付きでリスト表示", verification: "settings.tsで静的リスト生成" }, { criterion: "Obsidianホットキー設定へのナビゲーションボタン: Setting.addButton()でObsidianの設定>ホットキー画面を開くボタンを設置", verification: "app.setting.open()+app.setting.openTabById(\"hotkeys\") (内部APIだが広く使用されているパターン)" }, { criterion: "コマンドID検索ヒント表示: 各コマンドのIDをコピー可能なテキストで表示し、ホットキー設定画面での検索を容易にする", verification: "page-zettel:コマンドID形式で表示" }, { criterion: "i18n対応: settings.hotkeys配下に翻訳キー追加(heading/description/openHotkeysButton/commandList/commandIds)", verification: "ja.json+en.json" }], status: "done" },
   ],
 
-  sprint: null,
+  sprint: {
+    number: 28,
+    pbi_id: "PBI-029",
+    goal: "ホットキー設定へのクイックアクセス機能により、ユーザーが主要コマンドのホットキーを素早く確認・設定できるようにする",
+    status: "review",
+    subtasks: [
+      {
+        test: "i18n翻訳キー追加: settings.hotkeys配下に翻訳キー追加(heading/description/openHotkeysButton/commands/commandDescriptions)",
+        implementation: "i18n/locales/ja.json, i18n/locales/en.json",
+        type: "behavioral",
+        status: "completed",
+        commits: [{ hash: "10ddd47", message: "feat(i18n): add hotkey settings translation keys", phase: "green" }],
+        notes: [
+          "AC5対応",
+          "Sprint 18で確立したi18n事前追加パターン踏襲",
+          "4コマンド(createNewNote/extractToNote/promoteNote/quickFleeting)の名前・説明翻訳",
+          "ホットキー設定画面を開くボタンの翻訳",
+        ],
+      },
+      {
+        test: "ホットキー設定セクションUI実装: 設定画面にホットキーセクション追加+4コマンドリスト+ナビゲーションボタン+コマンドID表示",
+        implementation: "settings.ts",
+        type: "behavioral",
+        status: "completed",
+        commits: [{ hash: "d7da30f", message: "feat(settings): add hotkey settings section", phase: "green" }],
+        notes: [
+          "AC1対応: new Setting(containerEl).setName(t(\"settings.hotkeys.heading\")).setHeading()",
+          "AC2対応: 4コマンド(Create New Note/Extract to Note/Promote Note/Quick Fleeting)をリスト表示",
+          "AC3対応: Setting.addButton()でapp.setting.open()+app.setting.openTabById(\"hotkeys\")呼び出し",
+          "AC4対応: page-zettel:コマンドID形式でコピー可能なテキスト表示",
+          "既存UIセクションパターン(UI Settings/Behavior Settings)踏襲",
+        ],
+      },
+    ],
+  },
 
   definition_of_done: { checks: [{ name: "Build passes", run: "pnpm build" }, { name: "Lint passes", run: "pnpm lint" }, { name: "Format check passes", run: "pnpm format:check" }] },
 
