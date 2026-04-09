@@ -134,6 +134,10 @@
 				"name": "Move folder on promotion",
 				"desc": "Automatically move note to corresponding folder when promoted"
 			},
+			"defaultRemoveIndent": {
+				"name": "Default remove common indent",
+				"desc": "Automatically remove common indentation when the title input modal is skipped"
+			},
 			"fileNamePrefix": {
 				"name": "File name prefix",
 				"desc": "Select the prefix format for new note filenames",

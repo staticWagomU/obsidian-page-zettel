@@ -35,6 +35,7 @@ export const DEFAULT_SETTINGS: PageZettelSettings = {
 		openAfterExtract: true,
 		moveOnPromotion: true,
 		fileNamePrefix: "date",
+		defaultRemoveIndent: false,
 	},
 	ui: {
 		showEmojiInCommands: true,
@@ -303,6 +304,18 @@ export class PageZettelSettingTab extends PluginSettingTab {
 					.setValue(this.plugin.settings.behavior.moveOnPromotion)
 					.onChange(async (value) => {
 						this.plugin.settings.behavior.moveOnPromotion = value;
+						await this.plugin.saveSettings();
+					}),
+			);
+
+		new Setting(containerEl)
+			.setName(t("settings.behavior.defaultRemoveIndent.name"))
+			.setDesc(t("settings.behavior.defaultRemoveIndent.desc"))
+			.addToggle((toggle) =>
+				toggle
+					.setValue(this.plugin.settings.behavior.defaultRemoveIndent)
+					.onChange(async (value) => {
+						this.plugin.settings.behavior.defaultRemoveIndent = value;
 						await this.plugin.saveSettings();
 					}),
 			);

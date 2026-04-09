@@ -36,6 +36,8 @@ export interface BehaviorSettings {
 	moveOnPromotion: boolean;
 	/** ファイル名のプレフィックス形式 */
 	fileNamePrefix: "date" | "zettel-id" | "none";
+	/** 共通インデント削除のデフォルト値（タイトル入力モーダル非表示時に使用） */
+	defaultRemoveIndent: boolean;
 }
 
 export interface UISettings {

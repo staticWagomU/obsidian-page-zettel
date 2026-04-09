@@ -1,4 +1,4 @@
-import { Editor, MarkdownView, Notice } from "obsidian";
+import { Editor, EditorPosition, MarkdownView, Notice } from "obsidian";
 import { NoteType } from "../types/note-types";
 import { NoteTypeModal } from "../ui/modals/note-type-modal";
 import { TitleInputModal } from "../ui/modals/title-input-modal";
@@ -12,6 +12,9 @@ export async function extractSelection(
 ): Promise<void> {
 	// 1. 選択テキストを取得
 	const selection = editor.getSelection();
+	// 選択位置をキャプチャ（非同期モーダル中のカーソルドリフトを防止）
+	const selectionFrom = editor.getCursor("from");
+	const selectionTo = editor.getCursor("to");
 
 	if (!selection || selection.trim() === "") {
 		new Notice(t("notices.selectText"));
@@ -23,7 +26,7 @@ export async function extractSelection(
 		plugin.app,
 		plugin.settings,
 		(type: NoteType) => {
-			void showTitleInputOrCreate(plugin, editor, view, selection, type);
+			void showTitleInputOrCreate(plugin, editor, view, selection, type, selectionFrom, selectionTo);
 		},
 		["fleeting", "literature", "permanent"], // 切り出し時の選択肢
 	);
@@ -43,6 +46,8 @@ export async function extractSelectionToType(
 ): Promise<void> {
 	// 選択テキストを取得
 	const selection = editor.getSelection();
+	const selectionFrom = editor.getCursor("from");
+	const selectionTo = editor.getCursor("to");
 
 	if (!selection || selection.trim() === "") {
 		new Notice(t("notices.selectText"));
@@ -50,7 +55,7 @@ export async function extractSelectionToType(
 	}
 
 	// 直接showTitleInputOrCreateへ（NoteTypeModalをスキップ）
-	await showTitleInputOrCreate(plugin, editor, view, selection, type);
+	await showTitleInputOrCreate(plugin, editor, view, selection, type, selectionFrom, selectionTo);
 }
 
 async function showTitleInputOrCreate(
@@ -59,13 +64,17 @@ async function showTitleInputOrCreate(
 	view: MarkdownView,
 	selection: string,
 	type: NoteType,
+	selectionFrom: EditorPosition,
+	selectionTo: EditorPosition,
 ): Promise<void> {
 	// 設定確認: showTitleInputフラグ
 	const showTitleInput = plugin.settings[type].showTitleInput;
 
 	if (!showTitleInput) {
 		// showTitleInput=falseの場合、TitleInputModalをスキップしてノート作成
-		await createNoteFromSelection(plugin, editor, view, selection, type, "", false);
+		// defaultRemoveIndent設定をフォールバックとして使用
+		const removeIndent = plugin.settings.behavior.defaultRemoveIndent;
+		await createNoteFromSelection(plugin, editor, view, selection, type, "", removeIndent, selectionFrom, selectionTo);
 		return;
 	}
 
@@ -82,6 +91,8 @@ async function showTitleInputOrCreate(
 				type,
 				result.title,
 				result.removeIndent,
+				selectionFrom,
+				selectionTo,
 			);
 		},
 		true, // Extract時なのでremoveIndentチェックボックスを表示
@@ -98,6 +109,8 @@ async function createNoteFromSelection(
 	type: NoteType,
 	alias: string,
 	removeIndent: boolean,
+	selectionFrom: EditorPosition,
+	selectionTo: EditorPosition,
 ): Promise<void> {
 	// 3. インデント削除処理（removeIndent=trueの場合）
 	let content = selection;
@@ -105,8 +118,8 @@ async function createNoteFromSelection(
 		content = removeCommonIndent(selection);
 	}
 
-	// 4. 元ノートを取得
-	const sourceFile = plugin.app.workspace.getActiveFile();
+	// 4. 元ノートを取得（view.fileはgetActiveFile()より信頼性が高い）
+	const sourceFile = view.file;
 
 	// 5. NoteCreatorServiceでノートを作成
 	const newFile = await plugin.noteCreatorService.createNote(
@@ -124,12 +137,13 @@ async function createNoteFromSelection(
 			? plugin.app.metadataCache.fileToLinktext(newFile, sourceFile.path)
 			: newFile.path;
 		const link = `[${linkText}](${relativePath})`;
-		editor.replaceSelection(link);
+		// キャプチャした位置を使用して置換（カーソルドリフトを防止）
+		editor.replaceRange(link, selectionFrom, selectionTo);
 	}
 
 	// 7. 新規ノートを開く（設定で有効な場合）
 	if (plugin.settings.behavior.openAfterExtract) {
-		await plugin.app.workspace.openLinkText(newFile.path, "");
+		await plugin.app.workspace.getLeaf(false).openFile(newFile);
 	}
 }
 
