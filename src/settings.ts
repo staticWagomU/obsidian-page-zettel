@@ -72,7 +72,10 @@ export class PageZettelSettingTab extends PluginSettingTab {
 						this.plugin.settings.fleeting.folder = value;
 						await this.plugin.saveSettings();
 					});
-				new FolderSuggest(this.app, text.inputEl);
+				new FolderSuggest(this.app, text.inputEl, async (value) => {
+					this.plugin.settings.fleeting.folder = value;
+					await this.plugin.saveSettings();
+				});
 			});
 
 		new Setting(containerEl)
@@ -110,7 +113,10 @@ export class PageZettelSettingTab extends PluginSettingTab {
 						this.plugin.settings.fleeting.templatePath = value;
 						await this.plugin.saveSettings();
 					});
-				new FileSuggest(this.app, text.inputEl);
+				new FileSuggest(this.app, text.inputEl, "md", async (value) => {
+					this.plugin.settings.fleeting.templatePath = value;
+					await this.plugin.saveSettings();
+				});
 			});
 
 		new Setting(containerEl)
@@ -124,7 +130,10 @@ export class PageZettelSettingTab extends PluginSettingTab {
 						await this.plugin.saveSettings();
 					});
 				text.inputEl.addClass("page-zettel-icon-input");
-				new EmojiSuggest(this.app, text.inputEl);
+				new EmojiSuggest(this.app, text.inputEl, async (value) => {
+					this.plugin.settings.fleeting.icon = value;
+					await this.plugin.saveSettings();
+				});
 			});
 
 		this.addFrontmatterPreview(containerEl, "fleeting");
@@ -142,7 +151,10 @@ export class PageZettelSettingTab extends PluginSettingTab {
 						this.plugin.settings.literature.folder = value;
 						await this.plugin.saveSettings();
 					});
-				new FolderSuggest(this.app, text.inputEl);
+				new FolderSuggest(this.app, text.inputEl, async (value) => {
+					this.plugin.settings.literature.folder = value;
+					await this.plugin.saveSettings();
+				});
 			});
 
 		new Setting(containerEl)
@@ -180,7 +192,10 @@ export class PageZettelSettingTab extends PluginSettingTab {
 						this.plugin.settings.literature.templatePath = value;
 						await this.plugin.saveSettings();
 					});
-				new FileSuggest(this.app, text.inputEl);
+				new FileSuggest(this.app, text.inputEl, "md", async (value) => {
+					this.plugin.settings.literature.templatePath = value;
+					await this.plugin.saveSettings();
+				});
 			});
 
 		new Setting(containerEl)
@@ -194,7 +209,10 @@ export class PageZettelSettingTab extends PluginSettingTab {
 						await this.plugin.saveSettings();
 					});
 				text.inputEl.addClass("page-zettel-icon-input");
-				new EmojiSuggest(this.app, text.inputEl);
+				new EmojiSuggest(this.app, text.inputEl, async (value) => {
+					this.plugin.settings.literature.icon = value;
+					await this.plugin.saveSettings();
+				});
 			});
 
 		this.addFrontmatterPreview(containerEl, "literature");
@@ -212,7 +230,10 @@ export class PageZettelSettingTab extends PluginSettingTab {
 						this.plugin.settings.permanent.folder = value;
 						await this.plugin.saveSettings();
 					});
-				new FolderSuggest(this.app, text.inputEl);
+				new FolderSuggest(this.app, text.inputEl, async (value) => {
+					this.plugin.settings.permanent.folder = value;
+					await this.plugin.saveSettings();
+				});
 			});
 
 		new Setting(containerEl)
@@ -250,7 +271,10 @@ export class PageZettelSettingTab extends PluginSettingTab {
 						this.plugin.settings.permanent.templatePath = value;
 						await this.plugin.saveSettings();
 					});
-				new FileSuggest(this.app, text.inputEl);
+				new FileSuggest(this.app, text.inputEl, "md", async (value) => {
+					this.plugin.settings.permanent.templatePath = value;
+					await this.plugin.saveSettings();
+				});
 			});
 
 		new Setting(containerEl)
@@ -264,7 +288,10 @@ export class PageZettelSettingTab extends PluginSettingTab {
 						await this.plugin.saveSettings();
 					});
 				text.inputEl.addClass("page-zettel-icon-input");
-				new EmojiSuggest(this.app, text.inputEl);
+				new EmojiSuggest(this.app, text.inputEl, async (value) => {
+					this.plugin.settings.permanent.icon = value;
+					await this.plugin.saveSettings();
+				});
 			});
 
 		this.addFrontmatterPreview(containerEl, "permanent");

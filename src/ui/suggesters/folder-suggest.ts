@@ -1,8 +1,11 @@
 import { AbstractInputSuggest, App, TFolder } from "obsidian";
 
 export class FolderSuggest extends AbstractInputSuggest<TFolder> {
-	constructor(app: App, inputEl: HTMLInputElement) {
+	private onSelectCallback?: (path: string) => void;
+
+	constructor(app: App, inputEl: HTMLInputElement, onSelectCallback?: (path: string) => void) {
 		super(app, inputEl);
+		this.onSelectCallback = onSelectCallback;
 	}
 
 	protected getSuggestions(query: string): TFolder[] {
@@ -18,6 +21,7 @@ export class FolderSuggest extends AbstractInputSuggest<TFolder> {
 
 	selectSuggestion(folder: TFolder, _evt: MouseEvent | KeyboardEvent): void {
 		this.setValue(folder.path);
+		this.onSelectCallback?.(folder.path);
 		this.close();
 	}
 }
