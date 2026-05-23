@@ -51,11 +51,13 @@ export class NoteCreatorService {
 
 		// 2. フォルダ配置: settings[type].folderから取得+folderService.ensureFolderExistsByPath()
 		const folderPath = this.settings[type].folder;
-		await this.ensureFolderExistsByPath(folderPath);
+		if (folderPath) {
+			await this.ensureFolderExistsByPath(folderPath);
+		}
 
 		// 3. ファイル名を生成
 		const fileName = this.generateFileName(type, title, inputTitle);
-		const filePath = `${folderPath}/${fileName}`;
+		const filePath = folderPath ? `${folderPath}/${fileName}` : fileName;
 
 		// 4. テンプレート処理（フロントマター分離）
 		const templateResult = await this.templateService.getProcessedTemplateWithFrontmatter(
@@ -150,11 +152,11 @@ export class NoteCreatorService {
 		// {{date}} -> YYYY-MM-DD
 		fileName = fileName.replace(/\{\{date\}\}/g, moment().format("YYYY-MM-DD"));
 
-		// {{time}} -> HH:mm:ss
-		fileName = fileName.replace(/\{\{time\}\}/g, moment().format("HH:mm:ss"));
+		// {{time}} -> HHmmss（ファイル名にコロンは使用不可のため区切りなし）
+		fileName = fileName.replace(/\{\{time\}\}/g, moment().format("HHmmss"));
 
-		// {{datetime}} -> YYYY-MM-DD HH:mm:ss
-		fileName = fileName.replace(/\{\{datetime\}\}/g, moment().format("YYYY-MM-DD HH:mm:ss"));
+		// {{datetime}} -> YYYY-MM-DD_HHmmss（ファイル名にコロン・スペースは使用不可）
+		fileName = fileName.replace(/\{\{datetime\}\}/g, moment().format("YYYY-MM-DD_HHmmss"));
 
 		// {{zettel-id}} -> YYYYMMDDHHmmss (ISO形式から変換)
 		fileName = fileName.replace(/\{\{zettel-id\}\}/g, moment().format("YYYYMMDDHHmmss"));
@@ -164,6 +166,9 @@ export class NoteCreatorService {
 
 		// {{alias}} -> alias || title
 		fileName = fileName.replace(/\{\{alias\}\}/g, alias || sanitizedTitle);
+
+		// 最終サニタイズ（プレースホルダー展開後に残った禁止文字を除去）
+		fileName = fileName.replace(/[\\/:*?"<>|]/g, "-").trim();
 
 		// .md拡張子を追加
 		return `${fileName}.md`;
