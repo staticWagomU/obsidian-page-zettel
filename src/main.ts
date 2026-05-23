@@ -3,6 +3,7 @@ import {
 	MarkdownView,
 	Menu,
 	MenuItem,
+	Notice,
 	Platform,
 	Plugin,
 	TFile,
@@ -189,7 +190,12 @@ export default class PageZettelPlugin extends Plugin {
 										const view =
 											this.app.workspace.getActiveViewOfType(MarkdownView);
 										if (view) {
-											void extractSelectionToType(this, editor, view, type);
+											extractSelectionToType(this, editor, view, type).catch(
+												(e: unknown) => {
+													console.error("Page Zettel: extract failed", e);
+													new Notice(t("notices.extractFailed"));
+												},
+											);
 										}
 									}),
 							);

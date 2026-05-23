@@ -26,7 +26,18 @@ export async function extractSelection(
 		plugin.app,
 		plugin.settings,
 		(type: NoteType) => {
-			void showTitleInputOrCreate(plugin, editor, view, selection, type, selectionFrom, selectionTo);
+			showTitleInputOrCreate(
+				plugin,
+				editor,
+				view,
+				selection,
+				type,
+				selectionFrom,
+				selectionTo,
+			).catch((e: unknown) => {
+				console.error("Page Zettel: extract failed", e);
+				new Notice(t("notices.extractFailed"));
+			});
 		},
 		["fleeting", "literature", "permanent"], // 切り出し時の選択肢
 	);
@@ -74,7 +85,17 @@ async function showTitleInputOrCreate(
 		// showTitleInput=falseの場合、TitleInputModalをスキップしてノート作成
 		// defaultRemoveIndent設定をフォールバックとして使用
 		const removeIndent = plugin.settings.behavior.defaultRemoveIndent;
-		await createNoteFromSelection(plugin, editor, view, selection, type, "", removeIndent, selectionFrom, selectionTo);
+		await createNoteFromSelection(
+			plugin,
+			editor,
+			view,
+			selection,
+			type,
+			"",
+			removeIndent,
+			selectionFrom,
+			selectionTo,
+		);
 		return;
 	}
 
@@ -83,7 +104,7 @@ async function showTitleInputOrCreate(
 		plugin.app,
 		plugin,
 		(result) => {
-			void createNoteFromSelection(
+			createNoteFromSelection(
 				plugin,
 				editor,
 				view,
@@ -93,7 +114,10 @@ async function showTitleInputOrCreate(
 				result.removeIndent,
 				selectionFrom,
 				selectionTo,
-			);
+			).catch((e: unknown) => {
+				console.error("Page Zettel: extract failed", e);
+				new Notice(t("notices.extractFailed"));
+			});
 		},
 		true, // Extract時なのでremoveIndentチェックボックスを表示
 	);

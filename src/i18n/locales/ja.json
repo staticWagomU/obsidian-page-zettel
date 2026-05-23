@@ -220,7 +220,8 @@
 		"noteTypeNotSet": "⚠️ ノートタイプが設定されていません",
 		"cannotPromote": "⚠️ {type} ノートは昇格できません",
 		"promoteSuccess": "✅ {from} → {to} に昇格しました",
-		"noteCreated": "✅ Created {icon} {title}"
+		"noteCreated": "✅ Created {icon} {title}",
+		"extractFailed": "⚠️ ノートの切り出しに失敗しました。コンソールを確認してください"
 	},
 	"ribbon": {
 		"orphanView": "Orphan permanent notes"

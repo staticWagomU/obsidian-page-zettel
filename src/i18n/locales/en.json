@@ -220,7 +220,8 @@
 		"noteTypeNotSet": "⚠️ Note type is not set",
 		"cannotPromote": "⚠️ {type} notes cannot be promoted",
 		"promoteSuccess": "✅ Promoted from {from} to {to}",
-		"noteCreated": "✅ Created {icon} {title}"
+		"noteCreated": "✅ Created {icon} {title}",
+		"extractFailed": "⚠️ Failed to extract note. Check the console for details"
 	},
 	"ribbon": {
 		"orphanView": "Orphan permanent notes"
