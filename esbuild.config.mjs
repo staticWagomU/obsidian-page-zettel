@@ -1,7 +1,7 @@
 import esbuild from "esbuild";
 import process from "process";
 import { builtinModules } from 'node:module';
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, copyFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 // Load .env file if exists
@@ -67,6 +67,14 @@ if (prod) {
 	process.exit(0);
 } else {
 	if (pluginDir) {
+		// manifest.json と styles.css をプラグインディレクトリにコピー
+		for (const file of ["manifest.json", "styles.css"]) {
+			const src = resolve(process.cwd(), file);
+			if (existsSync(src)) {
+				copyFileSync(src, `${pluginDir}/${file}`);
+				console.log(`[dev] Copied ${file} to ${pluginDir}/`);
+			}
+		}
 		console.log(`[dev] Output to: ${pluginDir}/main.js`);
 	} else {
 		console.log("[dev] OBSIDIAN_PLUGIN_DIR not set. Output to: ./main.js");
