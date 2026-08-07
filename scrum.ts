@@ -2,7 +2,7 @@
 // Dashboard Data (AI edits this section)
 // ============================================================
 
-const userStoryRoles = ["Obsidianモバイルユーザー", "Zettelkasten実践者", "Obsidianユーザー"] as const satisfies readonly string[];
+type UserStoryRole = "Obsidianモバイルユーザー" | "Zettelkasten実践者" | "Obsidianユーザー";
 
 const scrum: ScrumDashboard = {
   product_goal: {
@@ -130,7 +130,7 @@ type ImprovementStatus = "active" | "completed" | "abandoned";
 interface SuccessMetric { metric: string; target: string; }
 interface ProductGoal { statement: string; success_metrics: SuccessMetric[]; }
 interface AcceptanceCriterion { criterion: string; verification: string; }
-interface UserStory { role: (typeof userStoryRoles)[number]; capability: string; benefit: string; }
+interface UserStory { role: UserStoryRole; capability: string; benefit: string; }
 interface PBI { id: string; story: UserStory; acceptance_criteria: AcceptanceCriterion[]; status: PBIStatus; }
 interface Commit { hash: string; message: string; phase: CommitPhase; }
 interface Subtask { test: string; implementation: string; type: SubtaskType; status: SubtaskStatus; commits: Commit[]; notes: string[]; }

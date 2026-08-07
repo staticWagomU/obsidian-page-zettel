@@ -1,6 +1,6 @@
 {
 	"name": "obsidian-page-zettel",
-	"version": "1.0.0",
+	"version": "1.7.0",
 	"description": "Zettelkasten workflow support for Obsidian - manage Fleeting, Permanent, and Structure notes with ease.",
 	"main": "main.js",
 	"type": "module",
